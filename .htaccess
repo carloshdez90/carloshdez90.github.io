@@ -1,0 +1,7 @@
+ExpiresActive On
+ExpiresDefault A0
+
+#expiran en 1 semana
+<FilesMatch "\.(gif|jpg|jpeg|png|swf|js|css)$">
+ExpiresDefault "access plus 1 weeks"
+</FilesMatch>
