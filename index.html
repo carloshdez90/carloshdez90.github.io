@@ -1,453 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carlos Hernández - Platform & AI Infrastructure</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carlos Hernández - Platform & AI Infrastructure</title>
 
-    :root {
-      --bg: #09090b;
-      --surface: #18181b;
-      --surface-hover: #27272a;
-      --text: #fafafa;
-      --text-secondary: #a1a1aa;
-      --text-muted: #71717a;
-      --accent: #10b981;
-      --accent-subtle: rgba(16, 185, 129, 0.1);
-      --border: #27272a;
-    }
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="Engineering leader specializing in AI-ready cloud platforms. Founder of h14z. I help teams ship faster with 60% cost reduction and 99.5% availability."
+    />
+    <meta name="author" content="Carlos Hernández" />
+    <link rel="canonical" href="https://carloshdez.com/" />
 
-    body {
-      font-family: 'DM Sans', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="Carlos Hernández - Platform & AI Infrastructure"
+    />
+    <meta
+      property="og:description"
+      content="Engineering leader specializing in AI-ready cloud platforms. Founder of h14z."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://carloshdez.com/" />
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 64px 32px;
-    }
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Carlos Hernández - Platform & AI Infrastructure"
+    />
+    <meta
+      name="twitter:description"
+      content="Engineering leader specializing in AI-ready cloud platforms. Founder of h14z."
+    />
 
-    /* Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 64px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-    }
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    .identity {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-    .avatar {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, var(--accent), #059669);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.125rem;
-    }
-
-    .identity-text .name {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .identity-text .meta {
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8125rem;
-      color: var(--accent);
-      background: var(--accent-subtle);
-      padding: 8px 14px;
-      border-radius: 20px;
-    }
-
-    .status::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-    }
-
-    /* Hero */
-    .hero {
-      margin-bottom: 56px;
-    }
-
-    .eyebrow {
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--accent);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 24px;
-      height: 2px;
-      background: var(--accent);
-    }
-
-    .headline {
-      font-size: clamp(2rem, 5vw, 2.75rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-
-    .subheadline {
-      font-size: 1.125rem;
-      color: var(--text-secondary);
-      line-height: 1.75;
-      max-width: 600px;
-    }
-
-    /* Stats row */
-    .stats-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 56px;
-      flex-wrap: wrap;
-    }
-
-    .stat-pill {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 16px 20px;
-      border-radius: 12px;
-      flex: 1;
-      min-width: 180px;
-    }
-
-    .stat-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .stat-label {
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-      line-height: 1.3;
-    }
-
-    /* Two columns */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      margin-bottom: 56px;
-    }
-
-    .section-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-    }
-
-    .section-title {
-      font-size: 0.6875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    /* Experience */
-    .exp-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .exp-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .exp-item .company {
-      font-weight: 600;
-      font-size: 0.9375rem;
-    }
-
-    .exp-tag {
-      font-size: 0.6875rem;
-      font-weight: 600;
-      padding: 4px 8px;
-      border-radius: 4px;
-      background: var(--surface-hover);
-      color: var(--text-secondary);
-    }
-
-    .exp-tag.green {
-      background: var(--accent-subtle);
-      color: var(--accent);
-    }
-
-    .exp-tag.blue {
-      background: rgba(59, 130, 246, 0.15);
-      color: #3b82f6;
-    }
-
-    .exp-tag.purple {
-      background: rgba(168, 85, 247, 0.15);
-      color: #a855f7;
-    }
-
-    .exp-tag.cyan {
-      background: rgba(34, 211, 238, 0.15);
-      color: #22d3ee;
-    }
-
-    /* Skills */
-    .skill-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .skill-item {
-      font-size: 0.9375rem;
-      color: var(--text-secondary);
-      padding-left: 16px;
-      position: relative;
-    }
-
-    .skill-item::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 10px;
-      width: 6px;
-      height: 2px;
-      background: var(--border);
-    }
-
-    .skill-item.featured::before {
-      background: var(--accent);
-      width: 8px;
-    }
-
-    .skill-item.featured {
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    /* CTA */
-    .cta-section {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 32px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .cta-text {
-      font-size: 1.125rem;
-      font-weight: 500;
-    }
-
-    .cta-text span {
-      color: var(--text-muted);
-      font-weight: 400;
-    }
-
-    .cta-actions {
-      display: flex;
-      gap: 12px;
-    }
-
-    .cta-primary {
-      background: var(--accent);
-      color: var(--bg);
-      padding: 14px 24px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9375rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .cta-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
-    }
-
-    .cta-secondary {
-      background: var(--surface-hover);
-      color: var(--text);
-      padding: 14px 20px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.9375rem;
-      transition: background 0.2s;
-    }
-
-    .cta-secondary:hover {
-      background: var(--border);
-    }
-
-    /* Footer */
-    .footer {
-      margin-top: 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: var(--text-muted);
-      font-size: 0.8125rem;
-    }
-
-    .footer a {
-      color: var(--text-muted);
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      color: var(--text);
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    @media (max-width: 700px) {
-      .container { padding: 40px 20px; }
-      .header { flex-direction: column; align-items: flex-start; gap: 16px; }
-      .two-col { grid-template-columns: 1fr; }
-      .stats-row { flex-direction: column; }
-      .stat-pill { min-width: auto; }
-      .cta-section { flex-direction: column; text-align: center; }
-      .cta-actions { width: 100%; flex-direction: column; }
-      .cta-primary, .cta-secondary { width: 100%; text-align: center; }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header class="header">
-      <div class="identity">
-        <div class="avatar">CH</div>
-        <div class="identity-text">
-          <div class="name">Carlos Hernández</div>
-          <div class="meta">El Salvador · CST (US-aligned)</div>
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="identity">
+          <div class="avatar">CH</div>
+          <div class="identity-text">
+            <div class="name">Carlos Hernández</div>
+            <div class="meta">El Salvador · CST (US-aligned)</div>
+          </div>
         </div>
-      </div>
-      <div class="status">Available for consulting</div>
-    </header>
+        <div class="status">Available for consulting</div>
+      </header>
 
-    <section class="hero">
-      <p class="eyebrow">AI & Platform Engineering</p>
-      <h1 class="headline">I build AI-ready cloud platforms that scale without surprises.</h1>
-      <p class="subheadline">
-        Engineering leader specializing in cloud platforms and AI infrastructure. I help teams ship faster without sacrificing reliability.
-      </p>
-    </section>
+      <section class="hero">
+        <p class="eyebrow">AI & Platform Engineering</p>
+        <h1 class="headline">
+          I build AI-ready cloud platforms that scale without surprises.
+        </h1>
+        <p class="subheadline">
+          Founder of
+          <a
+            href="https://h14z.io"
+            target="_blank"
+            rel="noopener"
+            class="h14z-link"
+            >h14z</a
+          >. Engineering leader specializing in cloud platforms and AI
+          infrastructure. I help teams ship faster without sacrificing
+          reliability.
+        </p>
+      </section>
 
-    <section class="stats-row">
-      <div class="stat-pill">
-        <span class="stat-value">20%+</span>
-        <span class="stat-label">cloud cost<br>reduction</span>
-      </div>
-      <div class="stat-pill">
-        <span class="stat-value">99.5%</span>
-        <span class="stat-label">platform<br>availability</span>
-      </div>
-      <div class="stat-pill">
-        <span class="stat-value">10+</span>
-        <span class="stat-label">years building<br>infrastructure</span>
-      </div>
-    </section>
+      <section class="stats-row">
+        <div class="stat-pill">
+          <a
+            href="https://h14z.io/usecases/logistics-finops.html"
+            target="_blank"
+            rel="noopener"
+            class="stat-value stat-link"
+            >60%</a
+          >
+          <span class="stat-label">cloud cost reduction<br />in 90 days</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-value">99.5%</span>
+          <span class="stat-label">platform<br />availability</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-value">10+</span>
+          <span class="stat-label">years building<br />infrastructure</span>
+        </div>
+      </section>
 
-    <div class="two-col">
-      <div class="section-card">
-        <h2 class="section-title">Experience</h2>
-        <div class="exp-list">
-          <div class="exp-item">
-            <span class="company">Deckers Brands</span>
-            <span class="exp-tag green">DevOps</span>
+      <div class="two-col">
+        <div class="section-card">
+          <h2 class="section-title">Experience</h2>
+          <div class="exp-list">
+            <div class="exp-item">
+              <span class="company">Deckers Brands</span>
+              <span class="exp-tag violet">DevOps</span>
+            </div>
+            <div class="exp-item">
+              <span class="company">alilo App</span>
+              <span class="exp-tag cyan">Founder</span>
+            </div>
+            <div class="exp-item">
+              <span class="company">FullStack Labs</span>
+              <span class="exp-tag indigo">Release Eng</span>
+            </div>
+            <div class="exp-item">
+              <span class="company">ese Plus</span>
+              <span class="exp-tag pink">CTO</span>
+            </div>
           </div>
-          <div class="exp-item">
-            <span class="company">alilo App</span>
-            <span class="exp-tag blue">Founder</span>
-          </div>
-          <div class="exp-item">
-            <span class="company">FullStack Labs</span>
-            <span class="exp-tag purple">Release Eng</span>
-          </div>
-          <div class="exp-item">
-            <span class="company">ese Plus</span>
-            <span class="exp-tag cyan">CTO</span>
+        </div>
+
+        <div class="section-card">
+          <h2 class="section-title">Expertise</h2>
+          <div class="skill-list">
+            <div class="skill-item">AI/ML & Multi-Agent Systems</div>
+            <div class="skill-item">Cloud Platforms (GCP, AWS, Terraform)</div>
+            <div class="skill-item">Platform Engineering & CI/CD</div>
+            <div class="skill-item">FinOps & Privacy-First AI</div>
           </div>
         </div>
       </div>
 
-      <div class="section-card">
-        <h2 class="section-title">Expertise</h2>
-        <div class="skill-list">
-          <div class="skill-item featured">Production RAG Systems</div>
-          <div class="skill-item featured">AI/ML Infrastructure</div>
-          <div class="skill-item">Platform Engineering</div>
-          <div class="skill-item">GCP, AWS, Terraform</div>
-          <div class="skill-item">CI/CD Architecture</div>
-          <div class="skill-item">FinOps & Cost Optimization</div>
-          <div class="skill-item">Multi-Agent Systems</div>
+      <section class="cta-section">
+        <div class="cta-content">
+          <p class="cta-text">Building AI infrastructure?</p>
+          <p class="cta-description">
+            Let's talk about your cloud costs or AI challenges. <br />
+            No pitch—just straight answers.
+          </p>
         </div>
-      </div>
+        <div class="cta-actions">
+          <a
+            href="https://calendar.app.google/nTFoa57ggkMpSBK66"
+            target="_blank"
+            rel="noopener"
+            class="cta-primary"
+            >Let's talk</a
+          >
+          <a
+            href="https://linkedin.com/in/carlosantoniohdz"
+            target="_blank"
+            rel="noopener"
+            class="cta-secondary"
+            >LinkedIn</a
+          >
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>MSc in Artificial Intelligence</span>
+        <div class="footer-links">
+          <a href="mailto:me@carloshdez.com">Email</a>
+          <a href="https://github.com/carloshdez" target="_blank" rel="noopener"
+            >GitHub</a
+          >
+        </div>
+      </footer>
     </div>
-
-    <section class="cta-section">
-      <p class="cta-text">Building AI infrastructure? <span>Let's talk.</span></p>
-      <div class="cta-actions">
-        <a href="mailto:me@carloshdez.com" class="cta-primary">Get in touch</a>
-        <a href="https://linkedin.com/in/carlosantoniohdz" class="cta-secondary">LinkedIn</a>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <span>MSc in Artificial Intelligence</span>
-      <div class="footer-links">
-        <a href="mailto:me@carloshdez.com">Email</a>
-        <a href="https://github.com/carloshdez">GitHub</a>
-      </div>
-    </footer>
-  </div>
-</body>
+  </body>
 </html>
