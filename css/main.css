@@ -226,6 +226,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
+  flex: 1;
+  margin-right: 12px;
 }
 
 .exp-item .company {
@@ -246,6 +249,8 @@ body {
   border-radius: 4px;
   background: var(--surface-hover);
   color: var(--text-secondary);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .exp-tag.violet {
