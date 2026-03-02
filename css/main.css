@@ -68,13 +68,9 @@ body {
 .avatar {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, var(--accent), var(--tertiary));
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.125rem;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  object-fit: cover;
   box-shadow: 0 4px 16px var(--accent-glow);
 }
 
@@ -226,9 +222,21 @@ body {
   align-items: center;
 }
 
+.exp-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .exp-item .company {
   font-weight: 600;
   font-size: 0.9375rem;
+}
+
+.exp-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 .exp-tag {
@@ -401,6 +409,16 @@ body {
   font-size: 0.8125rem;
 }
 
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-sep {
+  opacity: 0.4;
+}
+
 .footer a {
   color: var(--text-muted);
   text-decoration: none;
@@ -414,6 +432,25 @@ body {
 .footer-links {
   display: flex;
   gap: 20px;
+}
+
+/* Fade-in Animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.fade-in:nth-child(1) { animation-delay: 0.1s; }
+.fade-in:nth-child(2) { animation-delay: 0.2s; }
+.fade-in:nth-child(3) { animation-delay: 0.3s; }
+.fade-in:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive */
@@ -458,5 +495,11 @@ body {
   .cta-secondary {
     width: 100%;
     text-align: center;
+  }
+
+  .cta-secondary {
+    background: transparent;
+    padding: 10px 20px;
+    font-size: 0.875rem;
   }
 }
