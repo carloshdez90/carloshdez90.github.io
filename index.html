@@ -1,192 +1,829 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carlos Hernández - Platform & AI Infrastructure</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#faf9f6">
+<title>Carlos Hernández — Engineer & maker, San Salvador</title>
+<script>
+  (function() {
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    var theme = stored || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root, :root[data-theme="light"] {
+  --bg: #faf9f6;
+  --bg-elev: #f3f1ec;
+  --text: #18181c;
+  --text-mid: #52525a;
+  --text-dim: #6c6c74;
+  --text-faint: #8e8e96;
+  --border: #e6e3dd;
+  --border-mid: #d4d0c8;
 
-    <!-- SEO -->
-    <meta
-      name="description"
-      content="Engineering leader specializing in AI-ready cloud platforms. Founder of h14z. I help teams ship faster with 60% cost reduction and 3x faster deployments."
-    />
-    <meta name="author" content="Carlos Hernández" />
-    <link rel="canonical" href="https://carloshdez.com/" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%238B5CF6'/><stop offset='100%25' stop-color='%236366F1'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text x='50' y='68' font-family='system-ui' font-size='45' font-weight='700' fill='white' text-anchor='middle'>CH</text></svg>" />
+  --wine: #7d2929;
+  --wine-dim: #b07878;
+  --gold: #8a6e2f;
+  --gold-dim: #c4b388;
 
-    <!-- Open Graph -->
-    <meta
-      property="og:title"
-      content="Carlos Hernández - Platform & AI Infrastructure"
-    />
-    <meta
-      property="og:description"
-      content="Engineering leader specializing in AI-ready cloud platforms. Founder of h14z."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://carloshdez.com/" />
+  --hero-glow: rgba(125, 41, 41, 0.04);
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
-    <meta
-      name="twitter:title"
-      content="Carlos Hernández - Platform & AI Infrastructure"
-    />
-    <meta
-      name="twitter:description"
-      content="Engineering leader specializing in AI-ready cloud platforms. Founder of h14z."
-    />
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
 
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+:root[data-theme="dark"] {
+  --bg: #0c0c0e;
+  --bg-elev: #131318;
+  --text: #ebebec;
+  --text-mid: #b5b5b8;
+  --text-dim: #9a9a9e;
+  --text-faint: #787880;
+  --border: #1c1c22;
+  --border-mid: #2a2a32;
 
-    <!-- Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+  --wine: #a13a3a;
+  --wine-dim: #5e2222;
+  --gold: #c9a35e;
+  --gold-dim: #6e5728;
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/main.css" />
-  </head>
-  <body>
-    <div class="container">
-      <header class="header">
-        <div class="identity">
-          <img src="img/carlos.png" alt="Carlos Hernández" class="avatar" />
-          <div class="identity-text">
-            <div class="name">Carlos Hernández</div>
-            <div class="meta">El Salvador · CST (US-aligned)</div>
-          </div>
+  --hero-glow: rgba(161, 58, 58, 0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: var(--bg); color-scheme: light; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.005em;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--hero-glow), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 72px 28px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ MASTHEAD ============ */
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 80px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.masthead-name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.masthead-name em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--wine);
+}
+
+.masthead-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.masthead-right {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: right;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 0 0 4px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: -3px;
+  transition: color 0.2s;
+}
+
+.theme-toggle:hover { color: var(--wine); }
+.theme-toggle svg { display: block; }
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun { display: none; }
+
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--wine);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--wine);
+  box-shadow: 0 0 6px var(--wine);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ============ HERO ============ */
+
+.hero { margin-bottom: 84px; }
+
+.hero p {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-variation-settings: "opsz" 72;
+  font-size: 28px;
+  line-height: 1.32;
+  letter-spacing: -0.018em;
+  color: var(--text);
+  max-width: 24ch;
+}
+
+.hero p em {
+  font-style: italic;
+  color: var(--wine);
+}
+
+.hero-sub {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  margin-top: 24px;
+  max-width: 56ch;
+}
+
+.hero-sub a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-mid);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.hero-sub a:hover {
+  border-bottom-color: var(--wine);
+  color: var(--wine);
+}
+
+/* ============ NOW ============ */
+
+.now {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  margin-bottom: 88px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+}
+
+.now-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+}
+
+.now-text {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.55;
+}
+
+.now-text strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ============ SECTIONS ============ */
+
+section.col { margin-bottom: 80px; }
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.section-head-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.section-head-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "opsz" 18;
+  font-size: 17px;
+  color: var(--text-mid);
+}
+
+.section-head-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin-left: 8px;
+}
+
+/* ============ WORK / PROJECTS ============ */
+
+.entry {
+  padding: 22px 0;
+  border-top: 1px solid var(--border);
+}
+
+.entry:last-child { border-bottom: 1px solid var(--border); }
+
+.entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.entry-name {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 16.5px;
+  letter-spacing: -0.008em;
+  color: var(--text);
+}
+
+.entry-role {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13.5px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.entry-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 2px 7px;
+  border: 1px solid var(--border-mid);
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.entry-tag.current {
+  color: var(--wine);
+  border-color: var(--wine-dim);
+  background: rgba(161, 58, 58, 0.07);
+}
+
+.entry-desc {
+  font-size: 14.5px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  max-width: 60ch;
+  margin-bottom: 8px;
+}
+
+.entry-desc strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.entry-highlights {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.55;
+  max-width: 58ch;
+  margin-top: 6px;
+}
+
+.entry-highlights .metric {
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+/* ============ NOTES ============ */
+
+.note {
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 70px 1fr 60px;
+  gap: 20px;
+  align-items: baseline;
+}
+
+.note:last-child { border-bottom: 1px solid var(--border); }
+
+.note-date {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+}
+
+.note-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 18;
+  font-size: 16.5px;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--text);
+  transition: color 0.2s;
+}
+
+.note-summary {
+  grid-column: 2;
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+.note-meta {
+  grid-column: 3;
+  grid-row: 1;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  text-align: right;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+.lang {
+  display: inline-block;
+  padding: 1px 5px;
+  border: 1px solid var(--border-mid);
+  border-radius: 2px;
+  margin-bottom: 4px;
+}
+
+/* ============ WORKSHOP ============ */
+
+.workshop-intro {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "opsz" 18;
+  font-size: 15.5px;
+  color: var(--text-mid);
+  line-height: 1.55;
+  max-width: 52ch;
+  margin-bottom: 24px;
+}
+
+.workshop-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.workshop-card {
+  padding: 18px 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-elev);
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+
+.workshop-card:hover { border-color: var(--wine-dim); }
+.workshop-card:hover .workshop-name { color: var(--wine); }
+
+.workshop-name {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 6px;
+  transition: color 0.2s;
+  letter-spacing: -0.005em;
+}
+
+.workshop-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.workshop-meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+}
+
+/* ============ TALKS ============ */
+
+.talk {
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.talk:last-child { border-bottom: 1px solid var(--border); }
+
+.talk-name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 18;
+  font-size: 15.5px;
+  color: var(--text);
+  letter-spacing: -0.005em;
+}
+
+.talk-venue {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+
+.talk-date {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+/* ============ ABOUT ============ */
+
+.about-text {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  max-width: 58ch;
+}
+
+.about-text p + p { margin-top: 14px; }
+
+.about-text em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--text);
+}
+
+/* ============ FOOTER ============ */
+
+footer {
+  margin-top: 96px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+footer .left {
+  color: var(--text-faint);
+  max-width: 30ch;
+  line-height: 1.55;
+}
+
+footer .links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+}
+
+footer .links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+footer .links a:hover { color: var(--wine); }
+
+footer .arrow {
+  color: var(--text-faint);
+  margin-left: 4px;
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 640px) {
+  .page { padding: 48px 20px 80px; }
+  .masthead { margin-bottom: 56px; flex-direction: column; }
+  .masthead-right { text-align: left; }
+  .hero { margin-bottom: 56px; }
+  .hero p { font-size: 24px; }
+  .now { margin-bottom: 56px; grid-template-columns: 1fr; gap: 8px; }
+  section.col { margin-bottom: 56px; }
+  .entry-head { gap: 8px; }
+  .note { grid-template-columns: 1fr auto; }
+  .note-summary { grid-column: 1 / -1; }
+  .note-meta { grid-column: 2; grid-row: 1; }
+  .workshop-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; align-items: flex-start; }
+  footer .links { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<main class="page">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div>
+      <div class="masthead-name">Carlos <em>Hernández</em></div>
+      <div class="masthead-meta">Senior AI Platform Engineer · San Salvador</div>
+    </div>
+    <div class="masthead-right">
+      <div class="status">
+        <span class="status-dot"></span>
+        <span>Open to contracts</span>
+      </div>
+      <div>
+        UTC−6 · ES / EN
+        <button class="theme-toggle" aria-label="Toggle light and dark theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <p>I build production <em>LLM systems</em> — and small tools for my own life.</p>
+    <div class="hero-sub">
+      I've spent seven years building production cloud systems — and the engineering organizations behind them — at <a href="#">EsePlus / Alilo</a>, where I now lead AI Platform Engineering. I treat LLMs the way I'd treat any platform: observable, version-controlled, costed, deletable. Also senior platform contractor for <a href="#">Deckers Outdoor</a>, researching comparative NLP for text classification, and running <a href="#">h14z</a>.
+    </div>
+  </section>
+
+  <!-- ============ NOW ============ -->
+  <div class="now">
+    <span class="now-label">2026 · May</span>
+    <div class="now-text">
+      Writing <strong>field notes on production patterns</strong> for LLM applications. Running the <strong>NLP benchmark</strong> for the Master's thesis — classical baselines first, transformers next. Open to senior AI/LLM contract work — 25–30h/wk, remote.
+    </div>
+  </div>
+
+  <!-- ============ WORK ============ -->
+  <section class="col">
+    <div class="section-head">
+      <span class="section-head-label">I</span>
+      <span class="section-head-title">Production work</span>
+      <span class="section-head-line"></span>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">Alilo AI Suite · LXD AI + Alibot</span>
+        <span class="entry-tag current">In production</span>
+      </div>
+      <div class="entry-role">Built at EsePlus / Alilo · Head of AI Platform Engineering</div>
+      <div class="entry-desc">
+        Two AI engines I designed and own end-to-end, exposed as agnostic APIs for the product team to consume and compose into experiences. <strong>Alilo LXD AI</strong> auto-generates corporate microlearning experiences from uploaded documents — async pipeline coordinating document analysis, content generation, and activity design. <strong>Alibot</strong> is the multi-tenant RAG conversational backend — hybrid retrieval, Matryoshka embeddings, Google ADK agent with multimodal tool calling, defense-in-depth safety with automated adversarial regression.
+      </div>
+      <div class="entry-highlights">
+        Highlights: <span class="metric">95% → 99.5%</span> availability uplift · <span class="metric">20%+</span> cloud cost reduction · <span class="metric">~90%</span> token savings on validation retries · <span class="metric">sub-3s</span> p50 latency · <span class="metric">zero jailbreaks</span> at test time.
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">h14z</span>
+        <span class="entry-tag">Independent</span>
+      </div>
+      <div class="entry-role">Consulting on AI/LLM infrastructure for early-stage teams</div>
+      <div class="entry-desc">
+        Cloud platforms, FinOps, and production patterns for shipping LLM features past the prototype stage. Engagements range from advisory to hands-on architecture work.
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">Comparative NLP for transaction classification</span>
+        <span class="entry-tag">Research</span>
+      </div>
+      <div class="entry-role">Master's thesis · Universitat de Barcelona (OBS) · defense Sep 2026</div>
+      <div class="entry-desc">
+        Comparative evaluation of four NLP approaches for automatic bank-transaction categorization — from classical baselines (TF-IDF + SVM, XGBoost) and embedding-based neural networks to transformer fine-tuning (BETO / DistilBERT). Full evaluation pipeline measuring precision, recall, F1, and inference latency across 68k+ labeled transactions.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORKSHOP ============ -->
+  <section class="col">
+    <div class="section-head">
+      <span class="section-head-label">II</span>
+      <span class="section-head-title">Workshop</span>
+      <span class="section-head-line"></span>
+    </div>
+    <p class="workshop-intro">
+      Small tools I build for my own life. Each one started because something annoyed me enough to write code about it.
+    </p>
+    <div class="workshop-grid">
+
+      <div class="workshop-card">
+        <div class="workshop-name">Meal Planner</div>
+        <div class="workshop-desc">
+          A web app for planning weekly meals around macro targets and variety. Built because every meal planner online is either too rigid or too pretty to actually use.
         </div>
-        <div class="status">Available for consulting</div>
-      </header>
-
-      <section class="hero fade-in">
-        <p class="eyebrow">AI & Platform Engineering</p>
-        <h1 class="headline">
-          I build AI-ready cloud platforms that scale without surprises.
-        </h1>
-        <p class="subheadline">
-          Founder of
-          <a
-            href="https://h14z.io"
-            target="_blank"
-            rel="noopener"
-            class="h14z-link"
-            >h14z</a
-          >. Engineering leader specializing in cloud platforms and AI
-          infrastructure. I help teams ship faster without sacrificing
-          reliability.
-        </p>
-      </section>
-
-      <section class="stats-row fade-in">
-        <div class="stat-pill">
-          <a
-            href="https://h14z.io/usecases/logistics-finops.html"
-            target="_blank"
-            rel="noopener"
-            class="stat-value stat-link"
-            >60%</a
-          >
-          <span class="stat-label">cloud cost reduction<br />in 90 days</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-value">3x</span>
-          <span class="stat-label">faster<br />deployments</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-value">10+</span>
-          <span class="stat-label">years building<br />infrastructure</span>
-        </div>
-      </section>
-
-      <div class="two-col fade-in">
-        <div class="section-card">
-          <h2 class="section-title">Experience</h2>
-          <div class="exp-list">
-            <div class="exp-item">
-              <div class="exp-info">
-                <span class="company">Deckers Brands</span>
-                <span class="exp-desc">Cloud & CI/CD Infrastructure</span>
-              </div>
-              <span class="exp-tag violet">DevOps</span>
-            </div>
-            <div class="exp-item">
-              <div class="exp-info">
-                <span class="company">alilo App</span>
-                <span class="exp-desc">EdTech Startup · Espaciotec 2025</span>
-              </div>
-              <span class="exp-tag cyan">Founder</span>
-            </div>
-            <div class="exp-item">
-              <div class="exp-info">
-                <span class="company">FullStack Labs</span>
-                <span class="exp-desc">CI/CD & Release Automation</span>
-              </div>
-              <span class="exp-tag indigo">Release Eng</span>
-            </div>
-            <div class="exp-item">
-              <div class="exp-info">
-                <span class="company">ese Plus</span>
-                <span class="exp-desc">Technical Leadership & Architecture</span>
-              </div>
-              <span class="exp-tag pink">CTO</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-card">
-          <h2 class="section-title">Expertise</h2>
-          <div class="skill-list">
-            <div class="skill-item">AI/ML & Multi-Agent Systems</div>
-            <div class="skill-item">Cloud Platforms (GCP, AWS, Terraform)</div>
-            <div class="skill-item">Platform Engineering & CI/CD</div>
-            <div class="skill-item">FinOps & Privacy-First AI</div>
-          </div>
-        </div>
+        <div class="workshop-meta">React · Next.js · /meal_planner</div>
       </div>
 
-      <section class="cta-section fade-in">
-        <div class="cta-content">
-          <p class="cta-text">Building AI infrastructure?</p>
-          <p class="cta-description">
-            Let's talk about your cloud costs or AI challenges. <br />
-            No pitch—just straight answers.
-          </p>
+      <div class="workshop-card">
+        <div class="workshop-name">Fitness Dashboard</div>
+        <div class="workshop-desc">
+          A personal training and body-composition tracker — split routine, recomposition goals, observable progress. The dashboard I wanted but couldn't find as an app.
         </div>
-        <div class="cta-actions">
-          <a
-            href="https://calendar.app.google/nTFoa57ggkMpSBK66"
-            target="_blank"
-            rel="noopener"
-            class="cta-primary"
-            >Let's talk</a
-          >
-          <a
-            href="https://linkedin.com/in/carlosantoniohdz"
-            target="_blank"
-            rel="noopener"
-            class="cta-secondary"
-            >LinkedIn</a
-          >
-        </div>
-      </section>
+        <div class="workshop-meta">React · Tailwind · personal</div>
+      </div>
 
-      <footer class="footer">
-        <div class="footer-left">
-          <span>MSc in Artificial Intelligence</span>
-          <span class="footer-sep">&middot;</span>
-          <span>&copy; 2026</span>
-        </div>
-        <div class="footer-links">
-          <a href="https://h14z.io" target="_blank" rel="noopener">h14z</a>
-          <a href="mailto:me@carloshdez.com">Email</a>
-          <a href="https://github.com/carloshdez90" target="_blank" rel="noopener">GitHub</a>
-        </div>
-      </footer>
     </div>
-  </body>
+  </section>
+
+  <!-- ============ FIELD NOTES ============ -->
+  <section class="col">
+    <div class="section-head">
+      <span class="section-head-label">III</span>
+      <span class="section-head-title">Field notes</span>
+      <span class="section-head-line"></span>
+    </div>
+
+    <div class="note">
+      <span class="note-date">May '26</span>
+      <span class="note-title">Prompts deserve migrations, not vibes</span>
+      <span class="note-meta"><span class="lang">EN</span><br>9 min</span>
+      <p class="note-summary">Schema migrations have versioning, rollback, and a paper trail. Most prompts in production don't. What changed for me when I started treating them the same way, and where it broke first.</p>
+    </div>
+
+    <div class="note">
+      <span class="note-date">Apr '26</span>
+      <span class="note-title">TF-IDF beat my transformer. I'm not surprised.</span>
+      <span class="note-meta"><span class="lang">EN</span><br>10 min</span>
+      <p class="note-summary">Halfway into a thesis benchmark on 68k bank transactions, the classical baseline is uncomfortably close to BETO. The catch isn't accuracy. It's what you pay per inference, multiplied by traffic you actually have.</p>
+    </div>
+
+    <div class="note">
+      <span class="note-date">Mar '26</span>
+      <span class="note-title">What "observable" actually means for an LLM app</span>
+      <span class="note-meta"><span class="lang">EN</span><br>7 min</span>
+      <p class="note-summary">Infrastructure traces tell you the request landed. Quality metrics tell you the answer was wrong. Until both share an ID, you're guessing. A pattern set from running this on call, and the one thing I'd build first if I had to start over.</p>
+    </div>
+
+    <div class="note">
+      <span class="note-date">Feb '26</span>
+      <span class="note-title">Cursor + MCP, and why my IDE finally feels like a coworker</span>
+      <span class="note-meta"><span class="lang">EN</span><br>8 min</span>
+      <p class="note-summary">"Tool calling with extra steps" is the wrong framing. The shift is smaller and weirder: the editor reads our Jira, our repo, our traces, and starts answering the questions I used to walk over to a teammate for.</p>
+    </div>
+  </section>
+
+  <!-- ============ TALKS ============ -->
+  <section class="col">
+    <div class="section-head">
+      <span class="section-head-label">IV</span>
+      <span class="section-head-title">Speaking</span>
+      <span class="section-head-line"></span>
+    </div>
+
+    <div class="talk">
+      <div>
+        <div class="talk-name">Cursor + MCP — when your IDE knows your stack</div>
+        <div class="talk-venue">Internal tech talk · Recording available</div>
+      </div>
+      <div class="talk-date">2026.02</div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="col">
+    <div class="section-head">
+      <span class="section-head-label">V</span>
+      <span class="section-head-title">About</span>
+      <span class="section-head-line"></span>
+    </div>
+    <div class="about-text">
+      <p>
+        I'm a Senior AI Platform Engineer in El Salvador. I work from the same desk where I started in cloud infrastructure eight years ago. The systems have grown, the teams behind them too — but the principles haven't. Only the layer I apply them to.
+      </p>
+      <p>
+        I care about systems you can <em>operate</em>, not just demo. About prompts that fail loudly. About observability that survives the third on-call rotation. About cost lines that don't blow up the first time a feature gets traction.
+      </p>
+      <p>
+        Outside of paid work, I build small tools for my own life — usually with the same disciplines, because I don't know how to build software any other way.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="left">
+      &copy; 2026 · carloshdez.com<br>
+      Built in plain HTML, hosted on Vercel
+    </div>
+    <div class="links">
+      <a href="mailto:me@carloshdez.com">me@carloshdez.com<span class="arrow">↗</span></a>
+      <a href="/cv-carlos-hernandez.pdf">CV (PDF)<span class="arrow">↗</span></a>
+      <a href="#">LinkedIn<span class="arrow">↗</span></a>
+      <a href="#">GitHub<span class="arrow">↗</span></a>
+      <a href="#">h14z<span class="arrow">↗</span></a>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  (function() {
+    var btn = document.querySelector('.theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        var current = document.documentElement.getAttribute('data-theme') || 'light';
+        var next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+    }
+  })();
+</script>
+
+</body>
 </html>
