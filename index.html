@@ -447,16 +447,34 @@ section.col { margin-bottom: 80px; }
 }
 
 .workshop-card {
+  display: block;
   padding: 18px 18px 20px;
   border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--bg-elev);
   transition: border-color 0.2s;
   cursor: pointer;
+  color: inherit;
+  text-decoration: none;
 }
 
 .workshop-card:hover { border-color: var(--wine-dim); }
 .workshop-card:hover .workshop-name { color: var(--wine); }
+
+.workshop-meta .domain {
+  color: var(--wine);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.workshop-card:hover .workshop-meta .domain {
+  border-bottom-color: var(--wine-dim);
+}
+
+.workshop-meta .arrow {
+  color: var(--text-faint);
+  margin-left: 2px;
+}
 
 .workshop-name {
   font-family: var(--font-sans);
@@ -701,21 +719,13 @@ footer .arrow {
     </p>
     <div class="workshop-grid">
 
-      <div class="workshop-card">
+      <a class="workshop-card" href="https://cadence.carloshdez.com" target="_blank" rel="noopener">
         <div class="workshop-name">Cadence</div>
         <div class="workshop-desc">
           A local-first planner that marries GTD with time blocking. Built because every productivity app either fights your method or assumes you don't have one yet. Works offline, syncs across devices via Realtime, ⌘K does everything.
         </div>
-        <div class="workshop-meta">Next.js · Supabase · TypeScript</div>
-      </div>
-
-      <div class="workshop-card">
-        <div class="workshop-name">Meal Planner</div>
-        <div class="workshop-desc">
-          A web app for planning weekly meals around macro targets and variety. Built because every meal planner online is either too rigid or too pretty to actually use.
-        </div>
-        <div class="workshop-meta">React · Next.js · /meal_planner</div>
-      </div>
+        <div class="workshop-meta">Next.js · Supabase · TypeScript · <span class="domain">cadence.carloshdez.com</span><span class="arrow">↗</span></div>
+      </a>
 
       <div class="workshop-card">
         <div class="workshop-name">Fitness Dashboard</div>
