@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#faf9f6">
+<title>Prompts deserve migrations, not vibes — Carlos Hernández</title>
+<meta name="description" content="You version the code around the model with real discipline, then edit the prompt live in a dashboard. What changed when I started treating prompts like code — and where it broke first.">
+<link rel="canonical" href="https://carloshdez.com/notes/prompts-deserve-migrations.html">
+<link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/prompts-deserve-migrations.html">
+<link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/prompts-deserve-migrations.es.html">
+<link rel="alternate" hreflang="x-default" href="https://carloshdez.com/notes/prompts-deserve-migrations.html">
+
+<!-- Open Graph / social card -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Prompts deserve migrations, not vibes">
+<meta property="og:description" content="You version the code around the model with real discipline, then edit the prompt live in a dashboard. What changed when I started treating prompts like code — and where it broke first.">
+<meta property="og:url" content="https://carloshdez.com/notes/prompts-deserve-migrations.html">
+<meta property="og:image" content="https://carloshdez.com/img/carlos.png">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="article:author" content="Carlos Hernández">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Prompts deserve migrations, not vibes">
+<meta name="twitter:description" content="What changed when I started treating prompts like code — and where it broke first.">
+
+<script>
+  (function() {
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    var theme = stored || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root, :root[data-theme="light"] {
+  --bg: #faf9f6;
+  --bg-elev: #f3f1ec;
+  --text: #18181c;
+  --text-mid: #52525a;
+  --text-dim: #6c6c74;
+  --text-faint: #8e8e96;
+  --border: #e6e3dd;
+  --border-mid: #d4d0c8;
+
+  --wine: #7d2929;
+  --wine-dim: #b07878;
+  --gold: #8a6e2f;
+  --gold-dim: #c4b388;
+
+  --hero-glow: rgba(125, 41, 41, 0.04);
+
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c0c0e;
+  --bg-elev: #131318;
+  --text: #ebebec;
+  --text-mid: #b5b5b8;
+  --text-dim: #9a9a9e;
+  --text-faint: #787880;
+  --border: #1c1c22;
+  --border-mid: #2a2a32;
+
+  --wine: #a13a3a;
+  --wine-dim: #5e2222;
+  --gold: #c9a35e;
+  --gold-dim: #6e5728;
+
+  --hero-glow: rgba(161, 58, 58, 0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: var(--bg); color-scheme: light; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.005em;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--hero-glow), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 72px 28px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ MASTHEAD ============ */
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 56px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.masthead-name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.masthead-name em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--wine);
+}
+
+.masthead-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.masthead-right {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: right;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 0 0 4px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: -3px;
+  transition: color 0.2s;
+}
+
+.theme-toggle:hover { color: var(--wine); }
+.theme-toggle svg { display: block; }
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun { display: none; }
+
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+/* ============ TOP BAR (back + lang) ============ */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.back, .lang-switch {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back:hover { color: var(--wine); }
+
+.lang-switch .lang-current { color: var(--text); font-weight: 500; }
+.lang-switch a { color: var(--text-faint); text-decoration: none; }
+.lang-switch a:hover { color: var(--wine); }
+.lang-switch .sep { color: var(--border-mid); margin: 0 4px; }
+
+/* ============ ARTICLE HEADER ============ */
+
+.article-header {
+  margin-bottom: 44px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.article-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.article-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 60;
+  font-size: 36px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.article-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--wine);
+}
+
+.article-standfirst {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "opsz" 28;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--text-mid);
+  margin-top: 20px;
+  max-width: 52ch;
+}
+
+/* ============ PROSE ============ */
+
+.prose { max-width: 60ch; }
+
+.prose p {
+  font-size: 16px;
+  line-height: 1.72;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+
+.prose p.lead {
+  font-size: 17.5px;
+  color: var(--text);
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 32;
+  font-size: 23px;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  margin: 48px 0 18px;
+}
+
+.prose h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  margin: 32px 0 12px;
+}
+
+.prose strong { font-weight: 600; color: var(--text); }
+.prose em { font-style: italic; }
+
+.prose a {
+  color: var(--wine);
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+  transition: opacity 0.2s;
+}
+.prose a:hover { opacity: 0.7; }
+
+.prose ul {
+  margin: 0 0 22px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose li {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding-left: 26px;
+  position: relative;
+}
+
+.prose li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--wine);
+  font-family: var(--font-mono);
+}
+
+.prose blockquote {
+  margin: 32px 0;
+  padding: 4px 0 4px 24px;
+  border-left: 2px solid var(--wine);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: "opsz" 24;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+
+.prose pre {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin: 0 0 26px;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text-mid);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 44px 0;
+}
+
+.metric-line {
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cliffhanger {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: "opsz" 20;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--text-mid);
+  border-left: 2px solid var(--gold);
+  padding-left: 20px;
+  margin-top: 40px;
+}
+
+/* ============ ARTICLE FOOTER ============ */
+
+.article-footer {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.byline {
+  font-size: 14.5px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.byline strong { color: var(--text); font-weight: 600; }
+
+.byline a {
+  color: var(--wine);
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+}
+
+@media (max-width: 600px) {
+  .article-title { font-size: 28px; }
+  .page { padding: 48px 22px 90px; }
+}
+</style>
+</head>
+<body>
+
+<main class="page">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div>
+      <a class="masthead-name" href="/">Carlos <em>Hernández</em></a>
+      <div class="masthead-meta">Senior AI Platform Engineer · San Salvador</div>
+    </div>
+    <div class="masthead-right">
+      <div>
+        UTC−6
+        <button class="theme-toggle" aria-label="Toggle light and dark theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <a class="back" href="/#field-notes">← Field notes</a>
+    <span class="lang-switch"><span class="lang-current">EN</span><span class="sep">·</span><a href="/notes/prompts-deserve-migrations.es.html" hreflang="es">ES</a></span>
+  </div>
+
+  <!-- ============ ARTICLE ============ -->
+  <article>
+    <header class="article-header">
+      <div class="article-eyebrow">
+        <span>Field note</span>
+        <span>May 2026</span>
+        <span>5 min</span>
+      </div>
+      <h1 class="article-title">Prompts deserve migrations, <em>not vibes</em></h1>
+      <p class="article-standfirst">You version the code around the model with real discipline. Then you edit the prompt live in a dashboard. Here's what changed when I stopped doing that — and where it broke first.</p>
+    </header>
+
+    <div class="prose">
+      <p class="lead">You would never open a production database and run <code>ALTER TABLE</code> by hand, from memory, with no migration and no way back. We learned that one the hard way, a long time ago. So we built migrations: every schema change is a versioned, reviewable, reversible file with a timestamp and an author.</p>
+
+      <p>Then we turn around and edit the prompt that drives an LLM feature directly in a dashboard. Live. In production. No diff, no history, no test, no idea whether the last tweak helped or hurt.</p>
+
+      <p>We version the code around the model with real discipline. The prompt — the thing that actually decides what the model does — we treat like a sticky note.</p>
+
+      <h2>The model is almost never what breaks</h2>
+
+      <p>Here's the pattern I keep seeing across the last two years of LLM builds. The demo works. Production breaks. You trace the incident back, and the model was fine. What moved was the context around it, and most of the time, that means the prompt.</p>
+
+      <p>It rarely fails loudly. It fails as drift. A change here to fix one edge case. A line there to please a stakeholder. A "quick" instruction added the night before a launch. None of them reviewed against the others. Six weeks later the output is worse and nobody can point to the commit that did it, because there was no commit.</p>
+
+      <blockquote>A prompt you can't diff is a prompt you can't debug.</blockquote>
+
+      <p>The incident write-ups keep landing in the same place. It isn't model capability. It's the slow pile-up of unreviewed prompt edits and the drift that follows. Your model is the most stable thing in the stack. Your prompt is the part you change every week with the least rigor.</p>
+
+      <h2>What changed when I treated prompts like code</h2>
+
+      <p>Not a tool. Not a framework. A decision: a prompt is a software artifact, and it earns the same treatment as everything else in the repo. In practice, that was four things.</p>
+
+      <h3>1. Versioning — every prompt lives in the repo</h3>
+
+      <p>Prompts move out of the dashboard and into version control, next to the code that calls them. Every change is a commit with a message that says why. You can diff two versions. You can blame a line. And when a "small improvement" turns out not to be, you roll back to last Tuesday in one command.</p>
+
+      <pre><code>prompts/
+  extract_fields.v4.md      # was v3 — tightened the date-format rule
+  classify_intent.v8.md     # was v7 — rolled back, v7 scored higher
+  summarize_doc.v2.md</code></pre>
+
+      <p>It sounds too simple to matter. It is the highest-leverage thing I have done for an LLM system's reliability.</p>
+
+      <h3>2. Progressive retry — don't pay for the whole prompt to fix one field</h3>
+
+      <p>When the model returns something that fails validation, the lazy fix is to retry the entire prompt and pray. That gets expensive, and at real traffic it compounds.</p>
+
+      <p>So retries got smaller. On a failure, the system retries with a targeted correction aimed at the field that actually broke, and only escalates if it has to. You stop re-sending the full context to repair one bad value.</p>
+
+      <p class="metric-line">~90% fewer tokens spent on validation retries.</p>
+
+      <p>That number isn't a benchmark trick. It's what happens when "retry" stops meaning "do the whole thing again."</p>
+
+      <h3>3. Field-level sanitization — repair the input, not the universe</h3>
+
+      <p>A cousin of the above. When one field comes back wrong, you sanitize and re-run that field, not the whole response. Most "the LLM is unreliable" complaints are really "we threw the entire request away because one corner of it was off." Scope the repair to the actual problem and it gets cheaper, faster, and easier to reason about.</p>
+
+      <h3>4. Evals over vibes</h3>
+
+      <p>Once prompts are versioned, you can finally answer the question intuition can't: did this change actually help? Every version runs against a set of evaluation cases before it ships. A tweak that fixes one example and quietly breaks five others never reaches production. Iteration stops being "this feels better" and becomes "this scores better on the cases we care about."</p>
+
+      <h2>Where it broke first</h2>
+
+      <p>I didn't arrive here from theory. I arrived from getting burned.</p>
+
+      <p>The first version of one of my pipelines had none of this. Prompts lived half in code, half in a config anyone could edit. One day the quality dropped on a specific kind of input. Not catastrophically — just enough that it took days to notice, and by then I couldn't tell which of a dozen recent changes was responsible. No history to bisect. No evals to say which variant was better. I read outputs and guessed.</p>
+
+      <p>That is the exact feeling migrations were built to kill. So I borrowed the whole playbook: version it, make changes reviewable, keep a way back, test before you ship. If I started over tomorrow, the first thing I'd build isn't a smarter model. It's the boring versioning layer, on day one, before a single prompt goes anywhere near a user.</p>
+
+      <hr>
+
+      <h2>Prompts are software</h2>
+
+      <p>None of this is exotic. It's the discipline the rest of your stack already takes for granted, finally pointed at the layer we keep pretending is just text. Observable. Version-controlled. Costed. Deletable.</p>
+
+      <p>If a prompt is good enough to decide what your product says to a user, it's good enough to deserve a migration, not a vibe.</p>
+
+      <p>So: how does your team version its prompts today? And if the honest answer is "we don't," which of the four would you reach for first?</p>
+
+      <p class="cliffhanger">Next: versioning pays off twice. Once your prompts are under version control and eval, you have the scaffolding to <em>harden</em> them — to catch jailbreaks, fictional-framing, and the other ways people talk a model out of its job. That's where this goes next.</p>
+    </div>
+
+    <footer class="article-footer">
+      <p class="byline">
+        <strong>Carlos Hernández</strong> — Senior AI Platform Engineer in San Salvador, building production LLM systems. Field notes on the patterns that survive an on-call rotation.<br>
+        Reach me at <a href="mailto:me@carloshdez.com">me@carloshdez.com</a> · <a href="https://linkedin.com/in/carlosantoniohdz" target="_blank" rel="noopener">LinkedIn</a> · <a href="/notes/prompts-deserve-migrations.es.html">Leer en español</a>
+      </p>
+    </footer>
+  </article>
+
+</main>
+
+<script>
+  (function() {
+    var btn = document.querySelector('.theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        var current = document.documentElement.getAttribute('data-theme') || 'light';
+        var next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
