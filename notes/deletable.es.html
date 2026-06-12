@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#faf9f6">
+<title>"Deletable": la palabra más importante en sistemas LLM — Carlos Hernández</title>
+<meta name="description" content="Puedes borrar el documento. Sus embeddings, cached answers y summaries se quedan. Qué cambió cuando hice del borrado un asunto de diseño.">
+<link rel="canonical" href="https://carloshdez.com/notes/deletable.es.html">
+<link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/deletable.html">
+<link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/deletable.es.html">
+<link rel="alternate" hreflang="x-default" href="https://carloshdez.com/notes/deletable.html">
+
+<!-- Open Graph / social card -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="&quot;Deletable&quot;: la palabra más importante en sistemas LLM">
+<meta property="og:description" content="Puedes borrar el documento. Sus embeddings, cached answers y summaries se quedan. Qué cambió cuando hice del borrado un asunto de diseño.">
+<meta property="og:url" content="https://carloshdez.com/notes/deletable.es.html">
+<meta property="og:image" content="https://carloshdez.com/img/notes/deletable.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Un strip removido limpiamente de un stack versionado.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="article:author" content="Carlos Hernández">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://carloshdez.com/img/notes/deletable.png">
+<meta name="twitter:title" content="&quot;Deletable&quot;: la palabra más importante en sistemas LLM">
+<meta name="twitter:description" content="Puedes borrar el documento. Sus sombras se quedan. Diseñar el camino de borrado como un asunto de primera clase.">
+
+<script>
+  (function() {
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    var theme = stored || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root, :root[data-theme="light"] {
+  --bg: #faf9f6;
+  --bg-elev: #f3f1ec;
+  --text: #18181c;
+  --text-mid: #52525a;
+  --text-dim: #6c6c74;
+  --text-faint: #8e8e96;
+  --border: #e6e3dd;
+  --border-mid: #d4d0c8;
+
+  --wine: #7d2929;
+  --wine-dim: #b07878;
+  --gold: #8a6e2f;
+  --gold-dim: #c4b388;
+
+  --hero-glow: rgba(125, 41, 41, 0.04);
+
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c0c0e;
+  --bg-elev: #131318;
+  --text: #ebebec;
+  --text-mid: #b5b5b8;
+  --text-dim: #9a9a9e;
+  --text-faint: #787880;
+  --border: #1c1c22;
+  --border-mid: #2a2a32;
+
+  --wine: #a13a3a;
+  --wine-dim: #5e2222;
+  --gold: #c9a35e;
+  --gold-dim: #6e5728;
+
+  --hero-glow: rgba(161, 58, 58, 0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: var(--bg); color-scheme: light; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.005em;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--hero-glow), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 72px 28px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ MASTHEAD ============ */
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 56px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.masthead-name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.masthead-name em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--wine);
+}
+
+.masthead-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.masthead-right {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: right;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 0 0 4px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: -3px;
+  transition: color 0.2s;
+}
+
+.theme-toggle:hover { color: var(--wine); }
+.theme-toggle svg { display: block; }
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun { display: none; }
+
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+/* ============ TOP BAR (back + lang) ============ */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.back, .lang-switch {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back:hover { color: var(--wine); }
+
+.lang-switch .lang-current { color: var(--text); font-weight: 500; }
+.lang-switch a { color: var(--text-faint); text-decoration: none; }
+.lang-switch a:hover { color: var(--wine); }
+.lang-switch .sep { color: var(--border-mid); margin: 0 4px; }
+
+/* ============ ARTICLE HEADER ============ */
+
+.article-header {
+  margin-bottom: 44px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.article-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.article-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 60;
+  font-size: 36px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.article-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--wine);
+}
+
+.article-standfirst {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "opsz" 28;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--text-mid);
+  margin-top: 20px;
+  max-width: 52ch;
+}
+
+/* ============ PROSE ============ */
+
+.prose { max-width: 60ch; }
+
+.prose p {
+  font-size: 16px;
+  line-height: 1.72;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+
+.prose p.lead {
+  font-size: 17.5px;
+  color: var(--text);
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 32;
+  font-size: 23px;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  margin: 48px 0 18px;
+}
+
+.prose h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  margin: 32px 0 12px;
+}
+
+.prose strong { font-weight: 600; color: var(--text); }
+.prose em { font-style: italic; }
+
+.prose a {
+  color: var(--wine);
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+  transition: opacity 0.2s;
+}
+.prose a:hover { opacity: 0.7; }
+
+.prose ul {
+  margin: 0 0 22px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose li {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding-left: 26px;
+  position: relative;
+}
+
+.prose li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--wine);
+  font-family: var(--font-mono);
+}
+
+.prose blockquote {
+  margin: 32px 0;
+  padding: 4px 0 4px 24px;
+  border-left: 2px solid var(--wine);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: "opsz" 24;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+
+.prose pre {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin: 0 0 26px;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text-mid);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 44px 0;
+}
+
+.metric-line {
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cliffhanger {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: "opsz" 20;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--text-mid);
+  border-left: 2px solid var(--gold);
+  padding-left: 20px;
+  margin-top: 40px;
+}
+
+/* ============ ARTICLE FOOTER ============ */
+
+.article-footer {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.byline {
+  font-size: 14.5px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.byline strong { color: var(--text); font-weight: 600; }
+
+.byline a {
+  color: var(--wine);
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+}
+
+@media (max-width: 600px) {
+  .article-title { font-size: 28px; }
+  .page { padding: 48px 22px 90px; }
+}
+</style>
+</head>
+<body>
+
+<main class="page">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div>
+      <a class="masthead-name" href="/">Carlos <em>Hernández</em></a>
+      <div class="masthead-meta">Senior AI Platform Engineer · San Salvador</div>
+    </div>
+    <div class="masthead-right">
+      <div>
+        UTC−6
+        <button class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <a class="back" href="/#field-notes">← Field notes</a>
+    <span class="lang-switch"><a href="/notes/deletable.html" hreflang="en">EN</a><span class="sep">·</span><span class="lang-current">ES</span></span>
+  </div>
+
+  <!-- ============ ARTÍCULO ============ -->
+  <article>
+    <header class="article-header">
+      <div class="article-eyebrow">
+        <span>Field note</span>
+        <span>Junio 2026</span>
+        <span>6 min</span>
+      </div>
+      <h1 class="article-title"><em>"Deletable"</em>: la palabra más importante en sistemas LLM</h1>
+      <p class="article-standfirst">Puedes borrar el documento. Su sombra se queda en todas partes. Qué cambió cuando dejé de confiar en la palabra "borrado".</p>
+    </header>
+
+    <div class="prose">
+      <p class="lead">Un cliente me hizo una pregunta sencilla: <em>si nos vamos, ¿pueden borrar todo lo que el sistema sabe de nosotros?</em> Dije que sí antes de haberme ganado el derecho a decirlo.</p>
+
+      <p>Después fui a revisar. Los documentos fuente, claro, esos se borran. Pero los chunks que salieron de ellos seguían en el index. Los embeddings seguían en un ANN graph. Un cached answer todavía citaba un párrafo cuyo documento ya no existía. Un summary escrito dos semanas antes todavía cargaba un dato que me habían pedido olvidar. El origen ya no estaba. Su sombra seguía en otros cinco lugares.</p>
+
+      <h2>El documento ya no está. Sus sombras sí.</h2>
+
+      <p>Esa pregunta resultó ser la prueba más limpia que tengo para saber si un sistema LLM está de verdad bajo control. No la calidad del retrieval. No qué modelo usas. ¿Puedes borrar algo y que de verdad desaparezca?</p>
+
+      <p>Si no puedes, no sabes bien qué sabe tu sistema. Y un sistema cuyo conocimiento no puedes enumerar es uno que no puedes debuggear, ni razonar, ni defender cuando alguien pregunta.</p>
+
+      <p>La mayoría de los stacks son buenísimos para agregar estado. Para quitarlo son malísimos. Esa asimetría no se nota el día del lanzamiento. Aparece la primera vez que alguien te pide devolver algo, y descubres cuántas copias hiciste sin querer.</p>
+
+      <h2>Qué cambió cuando hice del borrado un camino de primera clase</h2>
+
+      <p>Un prompt que no puedes revertir es un prompt que te da miedo tocar. Lo mismo aplica al sistema entero: los datos que no puedes quitar limpiamente son datos sobre los que dejas de razonar. Así que empecé a diseñar el camino de borrado desde el día uno, junto al de escritura, en vez de descubrirlo la semana en que un cliente se va.</p>
+
+      <p>En la práctica vive en cuatro capas, de fácil a difícil.</p>
+
+      <h3>1. Prompts — quizá ya lo resolviste</h3>
+
+      <p>Ya argumenté que <a href="/notes/prompts-deserve-migrations.es.html">los prompts merecen migraciones, no improvisación</a>: versionados, revisados, reversibles. La deletability es ese mismo argumento por el otro lado. Si cada versión de un prompt es un checkpoint, entonces "quita esta instrucción" es un diff que revisas y reviertes, no un acto de fe. Si tus prompts ya viven bajo version control, esta capa está lista. Es la fácil.</p>
+
+      <h3>2. Documentos — el origen es el 10% fácil</h3>
+
+      <p>Un documento fuente se ramifica en chunks, embeddings, una entrada en el index, quizás un cached answer que lo citó.</p>
+
+      <blockquote>Borrar el documento es el 10% fácil. Lo que derivó de él es el 90% que todos se saltan.</blockquote>
+
+      <p>La trampa: los datos derivados son una copia que olvidaste que hiciste. La regla que sigo ahora es aburrida y carga el peso de todo. Cada artefacto derivado guarda una referencia de vuelta al origen del que salió, y el borrado recorre esas referencias. Hazlo bien y quitar algo es una cascada limpia. Hazlo mal y "borrado" pasa a significar "casi borrado", que es el peor tipo de error, porque se lee como terminado.</p>
+
+      <h3>3. Conocimiento derivado — la capa que miente</h3>
+
+      <p>Summaries. La memoria del agente. Un fine-tune. Un cache de "datos de esta cuenta". Esta es la capa difícil, porque para cuando un dato llega a un summary, el hilo de vuelta a su origen ya está cortado.</p>
+
+      <p>No tengo una solución limpia acá, y desconfiaría de quien te venda una. Lo que tengo es una restricción: desconfía de cualquier proceso que convierta fuentes en conocimiento derivado sin registrar qué fuentes lo alimentaron. Si no puedes responder "cómo se vería este summary si el documento X nunca hubiera existido", construiste algo que no puedes retractar del todo. Puede ser un trade aceptable. Nunca debería ser una sorpresa.</p>
+
+      <h3>4. Tenants — la arquitectura responde antes que tú</h3>
+
+      <p>En un sistema multi-tenant, "borra todo de este cliente" es el juego completo, y tu modelo de aislamiento escribió la respuesta antes de que llegara la petición.</p>
+
+      <p>¿Shared tables con una columna <code>tenant_id</code>? Borrar es un <code>DELETE ... WHERE tenant_id = ?</code> en cada tabla, index y cache, y "todo" es tan completo como tu memoria de dónde se filtró ese ID. ¿Database-per-tenant? Borrar es un <code>DROP DATABASE</code>. Una instrucción. Completa por construcción. Fácil de explicarle a un auditor.</p>
+
+      <p>Elegí database-per-tenant en Clarytia por varias razones. La que mejor envejece es que vuelve el camino de borrado trivial y total. La decisión cara de aislamiento del día uno es lo que convierte una pregunta existencial en una operación de una línea más adelante.</p>
+
+      <h2>Dónde me mordió</h2>
+
+      <p>No llegué acá razonando. Llegué quemándome.</p>
+
+      <p>Al principio, un tenant se dio de baja. Corrí los deletes, vi desaparecer las filas y lo di por hecho. Tres días después, probando algo no relacionado, una respuesta sacó a flote una frase de uno de sus documentos. El documento ya no estaba en su tabla. El cache de respuestas le había sobrevivido. Nadie de afuera lo vio nunca. Pero yo me había dicho "borrado" cuando quería decir "borré la parte que recordé".</p>
+
+      <p>Ese cache fue la versión más barata posible de esta falla. Las caras involucran embeddings, summaries y el abogado de un cliente. Construí la cascada después de eso, no antes, que es el orden honesto en que suelen llegar estas lecciones.</p>
+
+      <h2>Diseña primero el camino de borrado</h2>
+
+      <p>Por esto abro con el borrado y no con las features. El camino de borrado es la auditoría más honesta de tu arquitectura. Para quitar algo limpiamente tienes que saber a dónde fue a parar, y un sistema cuyo flujo de datos puedes rastrear hacia atrás es uno que de verdad puedes operar.</p>
+
+      <blockquote>Borras lo que el sistema sabe. Conservas el registro de lo que hizo.</blockquote>
+
+      <p>Confundir esas dos cosas es su propia falla, y la inmutabilidad tiene su lugar: los audit logs y la procedencia nunca deberían poder borrarse. La reversibilidad no es "haz todo mutable". Es decidir, a propósito, qué tiene que poder quitarse, y pagar por eso en vez de por todo.</p>
+
+      <p>Así que antes de las preguntas emocionantes sobre retrieval y modelos, ahora hago primero la aburrida: cuando esto termine, ¿podemos hacer que desaparezca? La respuesta me dice más sobre si estoy en control que cualquier benchmark.</p>
+
+      <p>Si de verdad resolviste la capa 3 —quitar conocimiento derivado limpiamente, no solo las fuentes— quiero saber cómo. Es la que todavía me cuesta de verdad, y no creo que el campo tenga una respuesta real.</p>
+    </div>
+
+    <footer class="article-footer">
+      <p class="byline">
+        <strong>Carlos Hernández</strong> — Senior AI Platform Engineer en San Salvador, construyendo sistemas LLM en producción. Field notes sobre los patrones que sobreviven a una guardia on-call.<br>
+        Escríbeme a <a href="mailto:me@carloshdez.com">me@carloshdez.com</a> · <a href="https://linkedin.com/in/carlosantoniohdz" target="_blank" rel="noopener">LinkedIn</a> · <a href="/notes/deletable.html">Read in English</a>
+      </p>
+    </footer>
+  </article>
+
+</main>
+
+<script>
+  (function() {
+    var btn = document.querySelector('.theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        var current = document.documentElement.getAttribute('data-theme') || 'light';
+        var next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
