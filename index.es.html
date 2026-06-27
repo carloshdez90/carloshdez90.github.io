@@ -370,6 +370,15 @@ section.col { margin-bottom: 80px; }
   font-weight: 500;
 }
 
+.entry-desc a {
+  color: var(--wine);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+  transition: opacity 0.2s;
+}
+.entry-desc a:hover { opacity: 0.7; }
+
 .entry-highlights {
   font-size: 13.5px;
   color: var(--text-dim);
@@ -676,9 +685,9 @@ footer .arrow {
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <p>Construyo <em>sistemas LLM</em> en producción — y herramientas pequeñas para mi propia vida.</p>
+    <p>Construyo <em>sistemas LLM en producción</em> — observables, versionados, costeados, borrables.</p>
     <div class="hero-sub">
-      Ocho años construyendo sistemas cloud en producción — y las organizaciones de ingeniería detrás de ellos — en <a href="https://ese.plus" target="_blank" rel="noopener">EsePlus</a> / <a href="https://alilo.app" target="_blank" rel="noopener">Alilo</a>, donde hoy lidero AI Platform Engineering. Trato a los LLMs como trataría cualquier plataforma: observables, versionados, costeados, borrables. También DevOps Engineer en <a href="https://deckers.com" target="_blank" rel="noopener">Deckers Brands</a>, y terminando una tesis de máster sobre NLP comparativo para clasificación de transacciones.
+      Ocho años en infraestructura de producción — DevOps y plataforma a escala, y los equipos detrás — ahora apuntados a la IA en producción. Lidero AI Platform Engineering en <a href="https://ese.plus" target="_blank" rel="noopener">EsePlus</a> / <a href="https://alilo.app" target="_blank" rel="noopener">Alilo</a>, y soy DevOps Engineer en <a href="https://deckers.com" target="_blank" rel="noopener">Deckers Brands</a>.
     </div>
   </section>
 
@@ -703,28 +712,6 @@ footer .arrow {
         Resultados: <span class="metric">95% → 99.5%</span> de disponibilidad · <span class="metric">20%+</span> de reducción de costo cloud · <span class="metric">~90%</span> de ahorro de tokens en reintentos de validación · <span class="metric">sub-3s</span> de latencia p50 · <span class="metric">cero jailbreaks</span> en testing adversarial.
       </div>
     </div>
-
-    <div class="entry">
-      <div class="entry-head">
-        <span class="entry-name">h14z</span>
-        <span class="entry-tag">Independiente</span>
-      </div>
-      <div class="entry-role">Consultoría en infraestructura de IA/LLM para equipos early-stage</div>
-      <div class="entry-desc">
-        Asesoría estratégica para equipos medianos y grandes que corren IA real en producción. Sistemas LLM privacy-first, FinOps y arquitectura cloud — sin SaaS, sin vendor lock-in.
-      </div>
-    </div>
-
-    <div class="entry">
-      <div class="entry-head">
-        <span class="entry-name">NLP comparativo para clasificación de transacciones</span>
-        <span class="entry-tag">Investigación</span>
-      </div>
-      <div class="entry-role">Tesis de máster · Universitat de Barcelona (OBS) · defensa Sep 2026</div>
-      <div class="entry-desc">
-        Evaluación comparativa de cuatro enfoques de NLP para la categorización automática de transacciones bancarias — desde baselines clásicos (TF-IDF + SVM, XGBoost) y redes neuronales basadas en embeddings hasta fine-tuning de transformers (BETO / DistilBERT). Pipeline de evaluación completo que mide precisión, recall, F1 y latencia de inferencia sobre 68k+ transacciones etiquetadas.
-      </div>
-    </div>
   </section>
 
   <!-- ============ FIELD NOTES ============ -->
@@ -734,6 +721,13 @@ footer .arrow {
       <span class="section-head-title">Field notes</span>
       <span class="section-head-line"></span>
     </div>
+
+    <a class="note" href="/notes/when-classical-wins.es.html">
+      <span class="note-date">Jun '26</span>
+      <span class="note-title">Cuándo gana lo clásico</span>
+      <span class="note-meta"><span class="lang">ES</span><br>4 min</span>
+      <p class="note-summary">Multipliqué los datos de entrenamiento por 7.4× y el F1 se movió cuatro centésimas de punto. Un benchmark NLP controlado sobre qué limita de verdad un problema — y el modelo más barato que le queda ganándole al impresionante que no justifica su costo.</p>
+    </a>
 
     <a class="note" href="/notes/jailbreaks-are-regressions.es.html">
       <span class="note-date">Jun '26</span>
@@ -757,13 +751,6 @@ footer .arrow {
     </a>
 
     <div class="note">
-      <span class="note-date">Apr '26</span>
-      <span class="note-title">TF-IDF le ganó a mi transformer. No me sorprende.</span>
-      <span class="note-meta"><span class="lang">EN</span><br>10 min</span>
-      <p class="note-summary">A mitad de un benchmark de tesis sobre 68k transacciones bancarias, el baseline clásico está incómodamente cerca de BETO. El detalle no es la accuracy. Es lo que pagas por inferencia, multiplicado por el tráfico que de verdad tienes.</p>
-    </div>
-
-    <div class="note">
       <span class="note-date">Mar '26</span>
       <span class="note-title">Qué significa de verdad "observable" para una app LLM</span>
       <span class="note-meta"><span class="lang">EN</span><br>7 min</span>
@@ -778,10 +765,30 @@ footer .arrow {
     </div>
   </section>
 
-  <!-- ============ WORKSHOP ============ -->
+  <!-- ============ RESEARCH ============ -->
   <section class="col">
     <div class="section-head">
       <span class="section-head-label">III</span>
+      <span class="section-head-title">Investigación</span>
+      <span class="section-head-line"></span>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">NLP comparativo para clasificación de transacciones</span>
+        <span class="entry-tag current">En curso</span>
+      </div>
+      <div class="entry-role">Tesis de máster · Universitat de Barcelona (OBS) · defensa Sep 2026</div>
+      <div class="entry-desc">
+        Evaluación comparativa de cuatro enfoques de NLP para la categorización automática de transacciones bancarias — desde baselines clásicos (TF-IDF + SVM, XGBoost) y redes neuronales basadas en embeddings hasta fine-tuning de transformers (DistilBERT). Pipeline de evaluación completo que mide precisión, recall, F1 y latencia de inferencia sobre 68k+ transacciones etiquetadas. <a href="/notes/when-classical-wins.es.html">Leer la field note →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORKSHOP ============ -->
+  <section class="col">
+    <div class="section-head">
+      <span class="section-head-label">IV</span>
       <span class="section-head-title">Workshop</span>
       <span class="section-head-line"></span>
     </div>
@@ -812,7 +819,7 @@ footer .arrow {
   <!-- ============ TALKS ============ -->
   <section class="col">
     <div class="section-head">
-      <span class="section-head-label">IV</span>
+      <span class="section-head-label">V</span>
       <span class="section-head-title">Charlas</span>
       <span class="section-head-line"></span>
     </div>
@@ -829,7 +836,7 @@ footer .arrow {
   <!-- ============ ABOUT ============ -->
   <section class="col">
     <div class="section-head">
-      <span class="section-head-label">V</span>
+      <span class="section-head-label">VI</span>
       <span class="section-head-title">Sobre mí</span>
       <span class="section-head-line"></span>
     </div>

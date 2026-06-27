@@ -370,6 +370,15 @@ section.col { margin-bottom: 80px; }
   font-weight: 500;
 }
 
+.entry-desc a {
+  color: var(--wine);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+  transition: opacity 0.2s;
+}
+.entry-desc a:hover { opacity: 0.7; }
+
 .entry-highlights {
   font-size: 13.5px;
   color: var(--text-dim);
@@ -676,9 +685,9 @@ footer .arrow {
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <p>I build production <em>LLM systems</em> — and small tools for my own life.</p>
+    <p>I build <em>production LLM systems</em> — observable, versioned, costed, deletable.</p>
     <div class="hero-sub">
-      Eight years building production cloud systems — and the engineering organizations behind them — at <a href="https://ese.plus" target="_blank" rel="noopener">EsePlus</a> / <a href="https://alilo.app" target="_blank" rel="noopener">Alilo</a>, where I now lead AI Platform Engineering. I treat LLMs the way I'd treat any platform: observable, version-controlled, costed, deletable. Also DevOps Engineer at <a href="https://deckers.com" target="_blank" rel="noopener">Deckers Brands</a>, and finishing a Master's thesis on comparative NLP for transaction classification.
+      Eight years in production infrastructure — DevOps and platform at scale, and the teams behind it — now aimed at production AI. I lead AI Platform Engineering at <a href="https://ese.plus" target="_blank" rel="noopener">EsePlus</a> / <a href="https://alilo.app" target="_blank" rel="noopener">Alilo</a>, and work as a DevOps Engineer at <a href="https://deckers.com" target="_blank" rel="noopener">Deckers Brands</a>.
     </div>
   </section>
 
@@ -703,28 +712,6 @@ footer .arrow {
         Highlights: <span class="metric">95% → 99.5%</span> availability uplift · <span class="metric">20%+</span> cloud cost reduction · <span class="metric">~90%</span> token savings on validation retries · <span class="metric">sub-3s</span> p50 latency · <span class="metric">zero jailbreaks</span> in adversarial testing.
       </div>
     </div>
-
-    <div class="entry">
-      <div class="entry-head">
-        <span class="entry-name">h14z</span>
-        <span class="entry-tag">Independent</span>
-      </div>
-      <div class="entry-role">Consulting on AI/LLM infrastructure for early-stage teams</div>
-      <div class="entry-desc">
-        Strategic advisory for mid-to-large teams running real AI in production. Privacy-first LLM systems, FinOps, and cloud architecture — no SaaS, no vendor lock-in.
-      </div>
-    </div>
-
-    <div class="entry">
-      <div class="entry-head">
-        <span class="entry-name">Comparative NLP for transaction classification</span>
-        <span class="entry-tag">Research</span>
-      </div>
-      <div class="entry-role">Master's thesis · Universitat de Barcelona (OBS) · defense Sep 2026</div>
-      <div class="entry-desc">
-        Comparative evaluation of four NLP approaches for automatic bank-transaction categorization — from classical baselines (TF-IDF + SVM, XGBoost) and embedding-based neural networks to transformer fine-tuning (BETO / DistilBERT). Full evaluation pipeline measuring precision, recall, F1, and inference latency across 68k+ labeled transactions.
-      </div>
-    </div>
   </section>
 
   <!-- ============ FIELD NOTES ============ -->
@@ -734,6 +721,13 @@ footer .arrow {
       <span class="section-head-title">Field notes</span>
       <span class="section-head-line"></span>
     </div>
+
+    <a class="note" href="/notes/when-classical-wins.html">
+      <span class="note-date">Jun '26</span>
+      <span class="note-title">When classical wins</span>
+      <span class="note-meta"><span class="lang">EN</span><br>4 min</span>
+      <p class="note-summary">I multiplied the training data by 7.4× and the F1 score moved four hundredths of a point. A controlled NLP benchmark on what actually limits a problem — and the cheapest model that fits beating the impressive one that doesn't earn its cost.</p>
+    </a>
 
     <a class="note" href="/notes/jailbreaks-are-regressions.html">
       <span class="note-date">Jun '26</span>
@@ -757,13 +751,6 @@ footer .arrow {
     </a>
 
     <div class="note">
-      <span class="note-date">Apr '26</span>
-      <span class="note-title">TF-IDF beat my transformer. I'm not surprised.</span>
-      <span class="note-meta"><span class="lang">EN</span><br>10 min</span>
-      <p class="note-summary">Halfway into a thesis benchmark on 68k bank transactions, the classical baseline is uncomfortably close to BETO. The catch isn't accuracy. It's what you pay per inference, multiplied by traffic you actually have.</p>
-    </div>
-
-    <div class="note">
       <span class="note-date">Mar '26</span>
       <span class="note-title">What "observable" actually means for an LLM app</span>
       <span class="note-meta"><span class="lang">EN</span><br>7 min</span>
@@ -778,10 +765,30 @@ footer .arrow {
     </div>
   </section>
 
-  <!-- ============ WORKSHOP ============ -->
+  <!-- ============ RESEARCH ============ -->
   <section class="col">
     <div class="section-head">
       <span class="section-head-label">III</span>
+      <span class="section-head-title">Research</span>
+      <span class="section-head-line"></span>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">Comparative NLP for transaction classification</span>
+        <span class="entry-tag current">In progress</span>
+      </div>
+      <div class="entry-role">Master's thesis · Universitat de Barcelona (OBS) · defense Sep 2026</div>
+      <div class="entry-desc">
+        Comparative evaluation of four NLP approaches for automatic bank-transaction categorization — from classical baselines (TF-IDF + SVM, XGBoost) and embedding-based neural networks to transformer fine-tuning (DistilBERT). Full evaluation pipeline measuring precision, recall, F1, and inference latency across 68k+ labeled transactions. <a href="/notes/when-classical-wins.html">Read the field note →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORKSHOP ============ -->
+  <section class="col">
+    <div class="section-head">
+      <span class="section-head-label">IV</span>
       <span class="section-head-title">Workshop</span>
       <span class="section-head-line"></span>
     </div>
@@ -812,7 +819,7 @@ footer .arrow {
   <!-- ============ TALKS ============ -->
   <section class="col">
     <div class="section-head">
-      <span class="section-head-label">IV</span>
+      <span class="section-head-label">V</span>
       <span class="section-head-title">Speaking</span>
       <span class="section-head-line"></span>
     </div>
@@ -829,7 +836,7 @@ footer .arrow {
   <!-- ============ ABOUT ============ -->
   <section class="col">
     <div class="section-head">
-      <span class="section-head-label">V</span>
+      <span class="section-head-label">VI</span>
       <span class="section-head-title">About</span>
       <span class="section-head-line"></span>
     </div>
