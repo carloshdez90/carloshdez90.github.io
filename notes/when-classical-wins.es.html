@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#faf9f6">
+<title>Cuándo gana lo clásico — Carlos Hernández</title>
+<meta name="description" content="Multipliqué los datos de entrenamiento por 7.4x y el F1 se movió cuatro centésimas de punto. Una nota desde un benchmark controlado sobre qué limita de verdad un problema — y qué solo agrega costo.">
+<link rel="canonical" href="https://carloshdez.com/notes/when-classical-wins.es.html">
+<link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/when-classical-wins.html">
+<link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/when-classical-wins.es.html">
+<link rel="alternate" hreflang="x-default" href="https://carloshdez.com/notes/when-classical-wins.html">
+
+<!-- Open Graph / social card -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cuándo gana lo clásico">
+<meta property="og:description" content="Multipliqué los datos por 7.4x. El F1 se movió cuatro centésimas de punto. Qué limita de verdad la clasificación de transacciones — y qué solo agrega costo.">
+<meta property="og:url" content="https://carloshdez.com/notes/when-classical-wins.es.html">
+<meta property="og:image" content="https://carloshdez.com/img/notes/when-classical-wins.jpg">
+<meta property="og:image:secure_url" content="https://carloshdez.com/img/notes/when-classical-wins.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cuándo gana lo clásico — una curva de saturación que sube y se aplana en una meseta larga.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="article:author" content="Carlos Hernández">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://carloshdez.com/img/notes/when-classical-wins.jpg">
+<meta name="twitter:title" content="Cuándo gana lo clásico">
+<meta name="twitter:description" content="Multipliqué los datos por 7.4x. El score no se movió. Qué dice eso sobre el reflejo de pedir más datos y modelos más grandes.">
+
+<script>
+  (function() {
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    var theme = stored || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root, :root[data-theme="light"] {
+  --bg: #faf9f6;
+  --bg-elev: #f3f1ec;
+  --text: #18181c;
+  --text-mid: #52525a;
+  --text-dim: #6c6c74;
+  --text-faint: #8e8e96;
+  --border: #e6e3dd;
+  --border-mid: #d4d0c8;
+
+  --wine: #7d2929;
+  --wine-dim: #b07878;
+  --gold: #8a6e2f;
+  --gold-dim: #c4b388;
+
+  --hero-glow: rgba(125, 41, 41, 0.04);
+
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c0c0e;
+  --bg-elev: #131318;
+  --text: #ebebec;
+  --text-mid: #b5b5b8;
+  --text-dim: #9a9a9e;
+  --text-faint: #787880;
+  --border: #1c1c22;
+  --border-mid: #2a2a32;
+
+  --wine: #a13a3a;
+  --wine-dim: #5e2222;
+  --gold: #c9a35e;
+  --gold-dim: #6e5728;
+
+  --hero-glow: rgba(161, 58, 58, 0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: var(--bg); color-scheme: light; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.005em;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--hero-glow), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 72px 28px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ MASTHEAD ============ */
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 56px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.masthead-name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.masthead-name em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--wine);
+}
+
+.masthead-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.masthead-right {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: right;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 0 0 4px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: -3px;
+  transition: color 0.2s;
+}
+
+.theme-toggle:hover { color: var(--wine); }
+.theme-toggle svg { display: block; }
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun { display: none; }
+
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+/* ============ TOP BAR (back + lang) ============ */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.back, .lang-switch {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back:hover { color: var(--wine); }
+
+.lang-switch .lang-current { color: var(--text); font-weight: 500; }
+.lang-switch a { color: var(--text-faint); text-decoration: none; }
+.lang-switch a:hover { color: var(--wine); }
+.lang-switch .sep { color: var(--border-mid); margin: 0 4px; }
+
+/* ============ ARTICLE HEADER ============ */
+
+.article-header {
+  margin-bottom: 44px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.article-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.article-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 60;
+  font-size: 36px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.article-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--wine);
+}
+
+.article-standfirst {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "opsz" 28;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--text-mid);
+  margin-top: 20px;
+  max-width: 52ch;
+}
+
+/* ============ PROSE ============ */
+
+.prose { max-width: 60ch; }
+
+.prose p {
+  font-size: 16px;
+  line-height: 1.72;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+
+.prose p.lead {
+  font-size: 17.5px;
+  color: var(--text);
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 32;
+  font-size: 23px;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  margin: 48px 0 18px;
+}
+
+.prose h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  margin: 32px 0 12px;
+}
+
+.prose strong { font-weight: 600; color: var(--text); }
+.prose em { font-style: italic; }
+
+.prose a {
+  color: var(--wine);
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+  transition: opacity 0.2s;
+}
+.prose a:hover { opacity: 0.7; }
+
+.prose ul {
+  margin: 0 0 22px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose li {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding-left: 26px;
+  position: relative;
+}
+
+.prose li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--wine);
+  font-family: var(--font-mono);
+}
+
+.prose blockquote {
+  margin: 32px 0;
+  padding: 4px 0 4px 24px;
+  border-left: 2px solid var(--wine);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: "opsz" 24;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+
+.prose pre {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin: 0 0 26px;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text-mid);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 44px 0;
+}
+
+.metric-line {
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.fig { margin: 10px 0 30px; }
+.fig svg.chart { width: 100%; height: auto; display: block; }
+.chart .axis { stroke: var(--border-mid); stroke-width: 1; }
+.chart .bar-svm { fill: var(--wine); }
+.chart .bar-xgb { fill: var(--text-faint); }
+.chart .val { font-family: var(--font-mono); font-size: 13px; fill: var(--text-mid); }
+.chart .cat { font-family: var(--font-mono); font-size: 13px; fill: var(--text-dim); }
+.chart .leg { font-family: var(--font-mono); font-size: 12px; fill: var(--text-mid); }
+.chart .ylab { font-family: var(--font-mono); font-size: 11px; fill: var(--text-faint); }
+.fig figcaption, .table-note { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin-top: 12px; letter-spacing: 0.02em; line-height: 1.55; }
+.fig figcaption a { color: var(--wine); text-decoration: none; border-bottom: 1px solid var(--wine-dim); }
+.fig figcaption a:hover { opacity: 0.7; }
+
+.data-table { width: 100%; border-collapse: collapse; margin: 0 0 12px; }
+.data-table th, .data-table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); }
+.data-table thead th { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); font-weight: 500; }
+.data-table td { font-size: 14px; color: var(--text-mid); }
+.data-table td.num { font-family: var(--font-mono); font-size: 12.5px; color: var(--text); text-align: right; }
+.data-table tr.grp td { padding-top: 13px; }
+
+.cliffhanger {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: "opsz" 20;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--text-mid);
+  border-left: 2px solid var(--gold);
+  padding-left: 20px;
+  margin-top: 40px;
+}
+
+/* ============ ARTICLE FOOTER ============ */
+
+.article-footer {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.byline {
+  font-size: 14.5px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.byline strong { color: var(--text); font-weight: 600; }
+
+.byline a {
+  color: var(--wine);
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+}
+
+@media (max-width: 600px) {
+  .article-title { font-size: 28px; }
+  .page { padding: 48px 22px 90px; }
+}
+</style>
+</head>
+<body>
+
+<main class="page">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div>
+      <a class="masthead-name" href="/">Carlos <em>Hernández</em></a>
+      <div class="masthead-meta">Senior AI Platform Engineer · San Salvador</div>
+    </div>
+    <div class="masthead-right">
+      <div>
+        UTC−6
+        <button class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <a class="back" href="/#field-notes">← Field notes</a>
+    <span class="lang-switch"><a href="/notes/when-classical-wins.html" hreflang="en">EN</a><span class="sep">·</span><span class="lang-current">ES</span></span>
+  </div>
+
+  <!-- ============ ARTICLE ============ -->
+  <article>
+    <header class="article-header">
+      <div class="article-eyebrow">
+        <span>Field note</span>
+        <span>Jun 2026</span>
+        <span>4 min</span>
+      </div>
+      <h1 class="article-title">Cuándo gana <em>lo clásico</em></h1>
+      <p class="article-standfirst">Multipliqué los datos de entrenamiento por 7.4×. El F1 se movió cuatro centésimas de punto. Una nota desde un benchmark controlado sobre qué limita de verdad un problema — y qué solo agrega costo.</p>
+    </header>
+
+    <div class="prose">
+      <p class="lead">Esto sale de mi tesis de máster: un benchmark de qué técnica de NLP clasifica mejor el texto de transacciones bancarias — esas cadenas cortas y crípticas que una app de finanzas tiene que leer, como <code>BIZUM ENVIO 15.00</code> o <code>TRF NOMINA EMPRESA X</code>. El resultado más útil hasta ahora no fue una cifra de accuracy. Fue lo que pasó cuando intenté subir una.</p>
+
+      <p>Tomé el clasificador que funcionaba, congelé todo a su alrededor y le di 7.4× más datos — de 68.000 filas a 500.000. El F1 pasó de 0,9845 a 0,9849. Cuatro centésimas de punto. El tiempo de entrenamiento pasó de 67 segundos a 304. Siete veces los datos compraron nada que pudiera medir, a cuatro veces y media el costo.</p>
+
+      <p>En machine learning los dos reflejos son <em>más datos</em> y <em>un modelo más grande</em>. En este problema los dos hicieron casi nada — y el benchmark muestra exactamente dónde cada uno dejó de pagar.</p>
+
+      <h2>El montaje</h2>
+
+      <p>El objetivo nunca fue un leaderboard. Era el balance honesto entre precisión, cómputo y escala — la decisión que de verdad tomas al poner un modelo en producción, no la que responde una sola cifra de accuracy.</p>
+
+      <p>Así que el diseño aísla variables. Un solo pipeline de preprocesamiento, una sola función de evaluación, una semilla fija, compartidos por cada modelo y cada corpus. Lo que se mueva es el modelo o los datos — nunca la plomería. Dos datasets públicos de HuggingFace; uno sintético, uno real.</p>
+
+      <p>Las tres corridas, y qué hay de verdad en ellas:</p>
+
+      <figure class="fig">
+        <table class="data-table">
+          <thead>
+            <tr><th>Corpus</th><th>Naturaleza</th><th>Filas</th><th>Categorías</th><th>Vocab (TF-IDF)</th><th>Palabras (media)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>A</td><td>sintético</td><td class="num">68.000</td><td class="num">17</td><td class="num">11.508</td><td class="num">5,2</td></tr>
+            <tr><td>B</td><td>real</td><td class="num">68.000</td><td class="num">10</td><td class="num">5.901</td><td class="num">3,1</td></tr>
+            <tr><td>C</td><td>real</td><td class="num">500.000</td><td class="num">10</td><td class="num">14.816</td><td class="num">3,1</td></tr>
+          </tbody>
+        </table>
+        <figcaption>Fuentes (públicas, HuggingFace): A — <a href="https://huggingface.co/datasets/DoDataThings/us-bank-transaction-categories-v2" target="_blank" rel="noopener">DoDataThings/us-bank-transaction-categories-v2</a> (sintético). B y C — <a href="https://huggingface.co/datasets/mitulshah/transaction-categorization" target="_blank" rel="noopener">mitulshah/transaction-categorization</a> (real). Todos balanceados (max/min ≈ 1,0). Nota el set sintético: más categorías, pero descripciones más largas y un vocabulario más rico.</figcaption>
+      </figure>
+
+      <p>Y cómo les fue a los dos modelos clásicos en las tres:</p>
+
+      <figure class="fig">
+        <table class="data-table">
+          <thead>
+            <tr><th>Corpus</th><th>Modelo</th><th>F1 (macro)</th><th>Entren.</th><th>Infer (ms/tx)</th></tr>
+          </thead>
+          <tbody>
+            <tr class="grp"><td>A · sintético · 68K</td><td>SVM</td><td class="num">0.9983</td><td class="num">10.5s</td><td class="num">0.0004</td></tr>
+            <tr><td></td><td>XGBoost</td><td class="num">0.9963</td><td class="num">171.3s</td><td class="num">0.1268</td></tr>
+            <tr class="grp"><td>B · real · 68K</td><td>SVM</td><td class="num">0.9845</td><td class="num">1.2s</td><td class="num">0.0001</td></tr>
+            <tr><td></td><td>XGBoost</td><td class="num">0.9848</td><td class="num">67.0s</td><td class="num">0.0871</td></tr>
+            <tr class="grp"><td>C · real · 500K</td><td>SVM</td><td class="num">0.9849</td><td class="num">22.5s</td><td class="num">0.0004</td></tr>
+            <tr><td></td><td>XGBoost</td><td class="num">0.9847</td><td class="num">303.9s</td><td class="num">0.1022</td></tr>
+          </tbody>
+        </table>
+        <figcaption>Features TF-IDF en todo · split 70/15/15 · semilla 42 · datasets públicos de HuggingFace. La red neuronal y el transformer (DistilBERT) entran en la siguiente fase.</figcaption>
+      </figure>
+
+      <h2>Tres cosas que dijeron los números</h2>
+
+      <h3>1. Más datos toparon con un techo, rápido</h3>
+
+      <p>Mismo corpus, mismo modelo, 68.000 filas y luego 500.000. F1 0,9845 → 0,9849. El modelo ya había aprendido todo lo que los datos tenían para enseñarle con el tamaño menor. Las 432.000 filas extra eran redundantes — reenseñaban lo que ya se sabía.</p>
+
+      <p class="metric-line">7.4× los datos → +0,04 puntos de F1. Y 4,5× el tiempo de entrenamiento.</p>
+
+      <p>Más datos no es gratis. Cuando deja de mover la métrica, sigue moviendo la cuenta.</p>
+
+      <h3>2. Ganó el modelo más simple</h3>
+
+      <p>Dos enfoques clásicos sobre las mismas features: un SVM lineal y árboles con gradient boosting (XGBoost). El SVM igualó o superó a XGBoost en cada corpus — y en costo no estuvo cerca.</p>
+
+      <p class="metric-line">SVM vs XGBoost: 20–150× más barato de entrenar, 200–600× más rápido en inferencia, F1 igual o mejor.</p>
+
+      <figure class="fig">
+        <svg class="chart" viewBox="0 0 1000 470" role="img" aria-label="Tiempo de entrenamiento, SVM vs XGBoost, por corpus">
+        <rect class="bar-svm" x="70" y="26" width="13" height="13"/>
+        <text class="leg" x="89" y="37">SVM</text>
+        <rect class="bar-xgb" x="148" y="26" width="13" height="13"/>
+        <text class="leg" x="167" y="37">XGBoost</text>
+        <text class="ylab" x="970" y="37" text-anchor="end">tiempo de entrenamiento (s)</text>
+        <line class="axis" x1="70" y1="386" x2="970" y2="386"/>
+        <rect class="bar-svm" x="134.0" y="375.4" width="78" height="10.6"/>
+        <rect class="bar-xgb" x="228.0" y="213.6" width="78" height="172.4"/>
+        <text class="val" x="173.0" y="368.4" text-anchor="middle">10.5s</text>
+        <text class="val" x="267.0" y="206.6" text-anchor="middle">171s</text>
+        <text class="cat" x="220.0" y="410.0" text-anchor="middle">sintético · 68K</text>
+        <rect class="bar-svm" x="434.0" y="383.5" width="78" height="2.5"/>
+        <rect class="bar-xgb" x="528.0" y="318.6" width="78" height="67.4"/>
+        <text class="val" x="473.0" y="376.5" text-anchor="middle">1.2s</text>
+        <text class="val" x="567.0" y="311.6" text-anchor="middle">67.0s</text>
+        <text class="cat" x="520.0" y="410.0" text-anchor="middle">real · 68K</text>
+        <rect class="bar-svm" x="734.0" y="363.4" width="78" height="22.6"/>
+        <rect class="bar-xgb" x="828.0" y="80.2" width="78" height="305.8"/>
+        <text class="val" x="773.0" y="356.4" text-anchor="middle">22.5s</text>
+        <text class="val" x="867.0" y="73.2" text-anchor="middle">304s</text>
+        <text class="cat" x="820.0" y="410.0" text-anchor="middle">real · 500K</text>
+        </svg>
+        <figcaption>Tiempo de entrenamiento por corrida. La misma accuracy en todos — XGBoost solo cuesta 10–150× más para llegar ahí, y la brecha crece con los datos. Las barras wine (SVM) apenas se ven.</figcaption>
+      </figure>
+
+      <p>El modelo más elaborado compró un sistema más lento para ser, en el mejor caso, exactamente igual de preciso. En producción eso no es un empate. Es una pérdida que pagas en cada request.</p>
+
+      <h3>3. Los datos sintéticos inflaron el modelo</h3>
+
+      <p>El score más alto de la tabla, 0,9983, es el corpus sintético (A). En el momento en que corrí el mismo pipeline sobre un dataset <em>real</em> del mismo tamaño, el F1 bajó cerca de 1,4 puntos a 0,9845. Mismo modelo, misma plomería. El set sintético era simplemente más fácil: más regular, más limpio, descripciones más largas (5,2 palabras contra 3,1). Su número casi perfecto describía los datos, no el modelo.</p>
+
+      <blockquote>Un score de datos sintéticos es una promesa, no una medición.</blockquote>
+
+      <h2>Antes de que alguien lo diga</h2>
+
+      <p>Sí — incluso un F1 de 98% es sospechosamente alto (y el 99,8% era sintético). Lo es. Hasta el dataset real de aquí es público, limpio y balanceado, y el texto de transacciones es muy separable: el token del comercio casi siempre delata la categoría. Los datos bancarios de producción son más sucios: typos, campos faltantes, categorías que de verdad se solapan.</p>
+
+      <p>Así que el número no es el punto, y no lo citaría como tal. El <em>perfil</em> sí: el problema satura temprano y barato. Una vez que ves ese perfil, tirarle datos y capacidad de modelo es gastar donde ya no queda nada por comprar.</p>
+
+      <h2>La decisión de ingeniería</h2>
+
+      <p>Es la misma decisión que tomo en sistemas en producción, solo que con un marco académico limpio alrededor. El modelo aburrido que le queda al problema le gana al impresionante que no justifica su costo. La precisión es el titular; la cuenta llega en cada inferencia, para siempre.</p>
+
+      <p>Los clásicos aquí ya están en 98–99%. Así que la pregunta honesta para la siguiente fase no es <em>si un transformer puede hacerlo mejor</em> — casi no hay margen. Es <em>si un transformer puede justificar su costo.</em></p>
+
+      <p>¿Cuándo fue la última vez que más datos, o un modelo más grande, se pagaron solos en tu problema — y lo mediste, o solo asumiste que lo harían?</p>
+
+      <p class="cliffhanger">Próxima: hago fine-tuning de un transformer (DistilBERT) sobre exactamente el mismo pipeline — y lo juzgo no por la precisión que suma, sino por la latencia y el cómputo que cobra a cambio. La respuesta interesante no es si gana. Es si vale la pena.</p>
+    </div>
+
+    <footer class="article-footer">
+      <p class="byline">
+        <strong>Carlos Hernández</strong> — Senior AI Platform Engineer en San Salvador, construyendo sistemas LLM en producción. Field notes sobre los patrones que sobreviven una guardia on-call.<br>
+        Escríbeme a <a href="mailto:me@carloshdez.com">me@carloshdez.com</a> · <a href="https://linkedin.com/in/carlosantoniohdz" target="_blank" rel="noopener">LinkedIn</a> · <a href="/notes/when-classical-wins.html">Read in English</a>
+      </p>
+    </footer>
+  </article>
+
+</main>
+
+<script>
+  (function() {
+    var btn = document.querySelector('.theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        var current = document.documentElement.getAttribute('data-theme') || 'light';
+        var next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
