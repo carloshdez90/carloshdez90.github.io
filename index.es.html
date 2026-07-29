@@ -722,6 +722,20 @@ footer .arrow {
       <span class="section-head-line"></span>
     </div>
 
+    <a class="note" href="/notes/the-model-ships-in-your-browser.es.html">
+      <span class="note-date">Jul '26</span>
+      <span class="note-title">El modelo corre en tu navegador</span>
+      <span class="note-meta"><span class="lang">ES</span><br>5 min</span>
+      <p class="note-summary">El clasificador ganador pesa 1,3 MB, así que corre en el navegador — sin servidor, $0 de servir, y datos bancarios que nunca salen del dispositivo. Por qué dónde corre un modelo decide más que cuál modelo es, y los $3.024 al año que cuesta una GPU dedicada para ser la opción menos precisa.</p>
+    </a>
+
+    <a class="note" href="/notes/the-transformer-wasnt-worth-it.es.html">
+      <span class="note-date">Jul '26</span>
+      <span class="note-title">El transformer no valió la pena</span>
+      <span class="note-meta"><span class="lang">ES</span><br>5 min</span>
+      <p class="note-summary">Hice fine-tuning de DistilBERT contra un modelo lineal. En texto limpio McNemar dio p=1,00 — un empate técnico, que significaba que el benchmark había dejado de medir. Así que lo rompí con ruido realista, y ganó el modelo 356× más pequeño. La redundancia le ganó a la sofisticación.</p>
+    </a>
+
     <a class="note" href="/notes/when-classical-wins.es.html">
       <span class="note-date">Jun '26</span>
       <span class="note-title">Cuándo gana lo clásico</span>
@@ -780,7 +794,7 @@ footer .arrow {
       </div>
       <div class="entry-role">Tesis de máster · Universitat de Barcelona (OBS) · defensa Sep 2026</div>
       <div class="entry-desc">
-        Evaluación comparativa de cuatro enfoques de NLP para la categorización automática de transacciones bancarias — desde baselines clásicos (TF-IDF + SVM, XGBoost) y redes neuronales basadas en embeddings hasta fine-tuning de transformers (DistilBERT). Pipeline de evaluación que mide precisión, recall, F1 y latencia de inferencia sobre 68k+ transacciones etiquetadas. <a href="/notes/when-classical-wins.es.html">Leer la field note →</a>
+        Evaluación comparativa de cuatro enfoques de NLP para la categorización automática de transacciones bancarias — desde baselines clásicos (TF-IDF + SVM, XGBoost) y redes neuronales basadas en embeddings hasta fine-tuning de transformers (DistilBERT), juzgados por precisión, robustez a texto ruidoso, significancia estadística y costo total de propiedad. Ganó el modelo lineal: empata al transformer en texto limpio, le gana bajo ruido, y se despliega como un modelo ONNX de 1,3 MB que corre en el navegador. <a href="/notes/the-transformer-wasnt-worth-it.es.html">Leer las field notes →</a>
       </div>
     </div>
   </section>
