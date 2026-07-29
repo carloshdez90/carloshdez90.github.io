@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#faf9f6">
+<title>The model ships in your browser — Carlos Hernández</title>
+<meta name="description" content="A dedicated GPU to serve the transformer costs $3,024 a year. The winning model was 1.3 MB — so it runs in the browser, for $0, and the data never leaves the device.">
+<link rel="canonical" href="https://carloshdez.com/notes/the-model-ships-in-your-browser.html">
+<link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/the-model-ships-in-your-browser.html">
+<link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/the-model-ships-in-your-browser.es.html">
+<link rel="alternate" hreflang="x-default" href="https://carloshdez.com/notes/the-model-ships-in-your-browser.html">
+
+<!-- Open Graph / social card -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The model ships in your browser">
+<meta property="og:description" content="A GPU to serve the transformer costs $3,024/yr. The winning model was 1.3 MB — it runs in the browser, for $0, and the data never leaves the device.">
+<meta property="og:url" content="https://carloshdez.com/notes/the-model-ships-in-your-browser.html">
+<meta property="og:image" content="https://carloshdez.com/img/notes/the-model-ships-in-your-browser.jpg">
+<meta property="og:image:secure_url" content="https://carloshdez.com/img/notes/the-model-ships-in-your-browser.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The model ships in your browser — a small solid mark inside a device outline, its copies portable to other runtimes.">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="article:author" content="Carlos Hernández">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://carloshdez.com/img/notes/the-model-ships-in-your-browser.jpg">
+<meta name="twitter:title" content="The model ships in your browser">
+<meta name="twitter:description" content="Where you run the model had more consequences than which model you ran. A 1.3 MB classifier, $0 to serve, private by design.">
+
+<script>
+  (function() {
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    var theme = stored || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root, :root[data-theme="light"] {
+  --bg: #faf9f6;
+  --bg-elev: #f3f1ec;
+  --text: #18181c;
+  --text-mid: #52525a;
+  --text-dim: #6c6c74;
+  --text-faint: #8e8e96;
+  --border: #e6e3dd;
+  --border-mid: #d4d0c8;
+
+  --wine: #7d2929;
+  --wine-dim: #b07878;
+  --gold: #8a6e2f;
+  --gold-dim: #c4b388;
+
+  --hero-glow: rgba(125, 41, 41, 0.04);
+
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c0c0e;
+  --bg-elev: #131318;
+  --text: #ebebec;
+  --text-mid: #b5b5b8;
+  --text-dim: #9a9a9e;
+  --text-faint: #787880;
+  --border: #1c1c22;
+  --border-mid: #2a2a32;
+
+  --wine: #a13a3a;
+  --wine-dim: #5e2222;
+  --gold: #c9a35e;
+  --gold-dim: #6e5728;
+
+  --hero-glow: rgba(161, 58, 58, 0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: var(--bg); color-scheme: light; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.005em;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--hero-glow), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 72px 28px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ MASTHEAD ============ */
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 56px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.masthead-name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.masthead-name em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--wine);
+}
+
+.masthead-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.masthead-right {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: right;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 0 0 4px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: -3px;
+  transition: color 0.2s;
+}
+
+.theme-toggle:hover { color: var(--wine); }
+.theme-toggle svg { display: block; }
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun { display: none; }
+
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+/* ============ TOP BAR (back + lang) ============ */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.back, .lang-switch {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back:hover { color: var(--wine); }
+
+.lang-switch .lang-current { color: var(--text); font-weight: 500; }
+.lang-switch a { color: var(--text-faint); text-decoration: none; }
+.lang-switch a:hover { color: var(--wine); }
+.lang-switch .sep { color: var(--border-mid); margin: 0 4px; }
+
+/* ============ ARTICLE HEADER ============ */
+
+.article-header {
+  margin-bottom: 44px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.article-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.article-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 60;
+  font-size: 36px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.article-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--wine);
+}
+
+.article-standfirst {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "opsz" 28;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--text-mid);
+  margin-top: 20px;
+  max-width: 52ch;
+}
+
+/* ============ PROSE ============ */
+
+.prose { max-width: 60ch; }
+
+.prose p {
+  font-size: 16px;
+  line-height: 1.72;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+
+.prose p.lead {
+  font-size: 17.5px;
+  color: var(--text);
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 32;
+  font-size: 23px;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  margin: 48px 0 18px;
+}
+
+.prose h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  margin: 32px 0 12px;
+}
+
+.prose strong { font-weight: 600; color: var(--text); }
+.prose em { font-style: italic; }
+
+.prose a {
+  color: var(--wine);
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+  transition: opacity 0.2s;
+}
+.prose a:hover { opacity: 0.7; }
+
+.prose ul {
+  margin: 0 0 22px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose li {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding-left: 26px;
+  position: relative;
+}
+
+.prose li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--wine);
+  font-family: var(--font-mono);
+}
+
+.prose blockquote {
+  margin: 32px 0;
+  padding: 4px 0 4px 24px;
+  border-left: 2px solid var(--wine);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: "opsz" 24;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+
+.prose pre {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin: 0 0 26px;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text-mid);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 44px 0;
+}
+
+.metric-line {
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.fig { margin: 10px 0 30px; }
+.fig svg.chart { width: 100%; height: auto; display: block; }
+.chart .axis { stroke: var(--border-mid); stroke-width: 1; }
+.chart .grid { stroke: var(--border); stroke-width: 1; }
+.chart .bar-svm { fill: var(--wine); }
+.chart .bar-xgb { fill: var(--text-faint); }
+.chart .val { font-family: var(--font-mono); font-size: 13px; fill: var(--text-mid); }
+.chart .val-win { font-family: var(--font-mono); font-size: 13px; fill: var(--wine); font-weight: 500; }
+.chart .cat { font-family: var(--font-mono); font-size: 13px; fill: var(--text-dim); }
+.chart .leg { font-family: var(--font-mono); font-size: 12px; fill: var(--text-mid); }
+.chart .ylab { font-family: var(--font-mono); font-size: 11px; fill: var(--text-faint); }
+.chart .box { fill: none; stroke: var(--text-faint); stroke-width: 1.6; }
+.chart .box-win { fill: none; stroke: var(--wine); stroke-width: 2; }
+.chart .flow { stroke: var(--wine-dim); stroke-width: 1.6; fill: none; }
+.chart .boxlab { font-family: var(--font-mono); font-size: 13px; fill: var(--text-mid); }
+.chart .boxlab-win { font-family: var(--font-mono); font-size: 13px; fill: var(--wine); }
+.fig figcaption, .table-note { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin-top: 12px; letter-spacing: 0.02em; line-height: 1.55; }
+.fig figcaption a { color: var(--wine); text-decoration: none; border-bottom: 1px solid var(--wine-dim); }
+.fig figcaption a:hover { opacity: 0.7; }
+
+.data-table { width: 100%; border-collapse: collapse; margin: 0 0 12px; }
+.data-table th, .data-table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); }
+.data-table thead th { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); font-weight: 500; }
+.data-table td { font-size: 14px; color: var(--text-mid); }
+.data-table td.num { font-family: var(--font-mono); font-size: 12.5px; color: var(--text); text-align: right; }
+.data-table tr.grp td { padding-top: 13px; }
+.data-table td.win { color: var(--wine); font-weight: 600; }
+
+.cliffhanger {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: "opsz" 20;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--text-mid);
+  border-left: 2px solid var(--gold);
+  padding-left: 20px;
+  margin-top: 40px;
+}
+
+/* ============ ARTICLE FOOTER ============ */
+
+.article-footer {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.byline {
+  font-size: 14.5px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.byline strong { color: var(--text); font-weight: 600; }
+
+.byline a {
+  color: var(--wine);
+  text-decoration: none;
+  border-bottom: 1px solid var(--wine-dim);
+}
+
+@media (max-width: 600px) {
+  .article-title { font-size: 28px; }
+  .page { padding: 48px 22px 90px; }
+}
+</style>
+</head>
+<body>
+
+<main class="page">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div>
+      <a class="masthead-name" href="/">Carlos <em>Hernández</em></a>
+      <div class="masthead-meta">Senior AI Platform Engineer · San Salvador</div>
+    </div>
+    <div class="masthead-right">
+      <div>
+        UTC−6
+        <button class="theme-toggle" aria-label="Toggle light and dark theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <a class="back" href="/#field-notes">← Field notes</a>
+    <span class="lang-switch"><span class="lang-current">EN</span><span class="sep">·</span><a href="/notes/the-model-ships-in-your-browser.es.html" hreflang="es">ES</a></span>
+  </div>
+
+  <!-- ============ ARTICLE ============ -->
+  <article>
+    <header class="article-header">
+      <div class="article-eyebrow">
+        <span>Field note</span>
+        <span>Jul 2026</span>
+        <span>5 min</span>
+      </div>
+      <h1 class="article-title">The model ships in your <em>browser</em></h1>
+      <p class="article-standfirst">A note from my master's thesis. The winning classifier was 1.3 MB, and that one number decided the architecture — no server, no data leaving the device, and a cloud bill of zero. For this problem, where a model runs turned out to matter more than which model it was.</p>
+    </header>
+
+    <div class="prose">
+      <p class="lead">Serving a fine-tuned DistilBERT on a dedicated GPU runs about $3,000 a year — one instance, list prices, at the volume this thesis models. In that benchmark, the money bought a model that <a href="/notes/the-transformer-wasnt-worth-it.html">tied on clean data and lost by 5.7 F1 points on noisy data</a>. So the interesting question stopped being <em>which model</em> and became <em>where it runs</em>.</p>
+
+      <p>The model that won — a linear classifier on TF-IDF — exports whole to ONNX, the open format the Linux Foundation maintains. The entire pipeline goes into one graph: tokenization, n-grams, TF-IDF weighting, the classifier. Input a raw description, out comes a category. The file is 1.3 MB.</p>
+
+      <p>Small enough, and standard enough, that it doesn't need a server. It runs in the browser through ONNX Runtime Web, on WebAssembly. Load the page, the model comes down with it, and classification happens in the tab. Three things follow from that, and none of them is about accuracy.</p>
+
+      <h2>1 · The cloud bill is zero</h2>
+
+      <p>Inference runs on the user's device, so the marginal cost of classifying a transaction is nothing. You pay to host a few static megabytes — which every provider serves free — and that's the line. It doesn't bend when traffic grows.</p>
+
+      <figure class="fig">
+        <svg class="chart" viewBox="0 0 1000 470" role="img" aria-label="Cost per year to serve one million transactions a month: browser near zero, serverless near zero, GPU 3024 euros.">
+          <text class="ylab" x="500" y="24" text-anchor="middle">cost per year · 1,000,000 transactions / month</text>
+          <line class="axis" x1="70" y1="392" x2="960" y2="392"/>
+          <!-- Browser (wine, ~0) -->
+          <rect class="bar-svm" x="150" y="388" width="150" height="4"/>
+          <text class="val-win" x="225" y="378" text-anchor="middle">$0.01</text>
+          <text class="cat" x="225" y="418" text-anchor="middle">Browser (ONNX)</text>
+          <text class="ylab" x="225" y="436" text-anchor="middle">our architecture</text>
+          <!-- Serverless (faint, ~0) -->
+          <rect class="bar-xgb" x="450" y="388" width="150" height="4"/>
+          <text class="val" x="525" y="378" text-anchor="middle">$2.41</text>
+          <text class="cat" x="525" y="418" text-anchor="middle">Serverless (CPU)</text>
+          <!-- GPU (faint, tall) -->
+          <rect class="bar-xgb" x="750" y="66" width="150" height="326"/>
+          <text class="val" x="825" y="56" text-anchor="middle">$3,024</text>
+          <text class="cat" x="825" y="418" text-anchor="middle">GPU (DistilBERT)</text>
+        </svg>
+        <figcaption>Twelve-month cost to serve one million transactions a month, three architectures. Browser and serverless are slivers you can barely draw; the dedicated GPU is a tower. And the tower buys the <em>less</em> accurate model on the noisy data that matters. Prices are July 2026 USD list rates; the GPU figure is a floor (it excludes the VM that hosts the accelerator).</figcaption>
+      </figure>
+
+      <p>Read those as a thesis cost model, not a price list: one GPU instance, published rates, a fixed volume. What matters is the shape of each line, not the size of the number. Scale the workload up and every column grows — the GPU line multiplies with instances, the browser line stays flat at zero — and the GPU is still serving the model that came second on noisy data. At $3,000 the absolute figure is small; the point is that you pay it for negative accuracy.</p>
+
+      <h2>2 · The data never leaves</h2>
+
+      <p>A bank statement is about as personal as text gets — it leaks where you shop, what you earn, your health through the pharmacy line. Because inference is local, none of it is transmitted or stored. GDPR data minimization stops being a retention policy you promise to honor and becomes a property of the architecture. There's no server log to leak, because there's no server.</p>
+
+      <h2>3 · The deployment is reversible</h2>
+
+      <p>The same <code>.onnx</code> file runs in the browser, in Python, in Node, on the JVM. If volume ever forced a server-side API — integration with a third party, say — that's a change of runtime, not a change of model. No retraining, no reimplementation. You move the exact binary you already evaluated.</p>
+
+      <figure class="fig">
+        <svg class="chart" viewBox="0 0 1000 300" role="img" aria-label="One ONNX file runs in the browser, a Python service, or the JVM without change.">
+          <!-- source -->
+          <rect class="box-win" x="70" y="115" width="230" height="70" rx="6"/>
+          <text class="boxlab-win" x="185" y="145" text-anchor="middle">model.onnx</text>
+          <text class="boxlab-win" x="185" y="166" text-anchor="middle">1.3 MB</text>
+          <!-- flows -->
+          <path class="flow" d="M300 135 C 420 135, 470 55, 620 55"/>
+          <path class="flow" d="M300 150 C 430 150, 470 150, 620 150"/>
+          <path class="flow" d="M300 165 C 420 165, 470 245, 620 245"/>
+          <!-- targets -->
+          <rect class="box" x="620" y="30" width="300" height="50" rx="6"/>
+          <text class="boxlab" x="640" y="60">Browser · WebAssembly</text>
+          <rect class="box" x="620" y="125" width="300" height="50" rx="6"/>
+          <text class="boxlab" x="640" y="155">Python service</text>
+          <rect class="box" x="620" y="220" width="300" height="50" rx="6"/>
+          <text class="boxlab" x="640" y="250">Node · JVM · .NET</text>
+        </svg>
+        <figcaption>One artifact, many runtimes. Starting in the browser and moving to a server later is an execution-environment change, not a re-model. That's what makes the deployment decision reversible.</figcaption>
+      </figure>
+
+      <blockquote>Where you run the model had more consequences than which model you ran.</blockquote>
+
+      <h2>Verify, don't assume</h2>
+
+      <p>Exporting a model risks a different failure, one with no symptom: the deployed artifact stops matching the one you evaluated, and nothing tells you. The app keeps returning plausible answers while your metrics describe a model that's no longer running.</p>
+
+      <p>So the equivalence is checked, not trusted. The first export reproduced 99.95% of the original predictions — and that 0.05% wasn't rounding. It was descriptions where cleaning leaves single-character tokens — <code>H-E-B</code>, <code>H&amp;M</code> — that scikit-learn drops and the graph kept. A silent divergence, caught only because I looked. Now the app re-runs 60 reference cases on every load and shows the result: 60 of 60, identical.</p>
+
+      <blockquote>An exported model's equivalence is verified, not assumed. A wrong model that returns plausible answers has no symptom.</blockquote>
+
+      <h2>The same call, with a clean frame around it</h2>
+
+      <p>This is a thesis, so read it as one: a scoped comparison on a defined problem, not a template to paste onto every system. None of it says "always run in the browser." It works here for one reason — the model is 1.3 MB, and it's that small because the <a href="/notes/the-transformer-wasnt-worth-it.html">previous stage</a> showed a linear model already solves this particular task, short and separable transaction text, as well as anything larger. Put a model too big to run on the device behind a heavier workload and every line above flips. The architecture followed the finding; it didn't lead it.</p>
+
+      <p>This is the decision I make on production systems, just handed to me with an academic bow on top. The cheapest place to run inference that clears the bar wins — and "clears the bar" includes latency, privacy, and the bill that arrives on every request, forever. A 1.3 MB model let me put all of it on the device. A transformer 356× the size never could have.</p>
+
+      <p>What in your stack is sitting on a server only because nobody asked whether it needed to be?</p>
+    </div>
+
+    <footer class="article-footer">
+      <p class="byline">
+        <strong>Carlos Hernández</strong> — Senior AI Platform Engineer in San Salvador, building production LLM systems. Field notes on the patterns that survive an on-call rotation.<br>
+        Reach me at <a href="mailto:me@carloshdez.com">me@carloshdez.com</a> · <a href="https://linkedin.com/in/carlosantoniohdz" target="_blank" rel="noopener">LinkedIn</a> · <a href="/notes/the-model-ships-in-your-browser.es.html">Leer en español</a>
+      </p>
+    </footer>
+  </article>
+
+</main>
+
+<script>
+  (function() {
+    var btn = document.querySelector('.theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        var current = document.documentElement.getAttribute('data-theme') || 'light';
+        var next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
