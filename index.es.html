@@ -5,20 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#faf9f6">
-<title>Carlos Hernández — Ingeniero & maker, San Salvador</title>
-<meta name="description" content="Senior AI Platform Engineer en San Salvador, construyendo sistemas LLM en producción. Field notes sobre los patrones que sobreviven a una guardia on-call.">
+<title>Carlos Hernández — Senior AI Platform Engineer</title>
+<meta name="description" content="Senior AI Platform Engineer en San Salvador. Construyo las plataformas sobre las que corren sistemas LLM en producción — RAG multi-tenant, runtimes de agentes, evals y la infraestructura de entrega que va debajo.">
 <link rel="canonical" href="https://carloshdez.com/index.es.html">
 <link rel="alternate" hreflang="en" href="https://carloshdez.com/">
 <link rel="alternate" hreflang="es" href="https://carloshdez.com/index.es.html">
 <link rel="alternate" hreflang="x-default" href="https://carloshdez.com/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Carlos Hernández — Senior AI Platform Engineer">
-<meta property="og:description" content="Construyendo sistemas LLM en producción desde San Salvador. Field notes sobre los patrones que sobreviven a una guardia on-call.">
+<meta property="og:description" content="Construyo las plataformas sobre las que corren sistemas LLM en producción — RAG multi-tenant, runtimes de agentes, evals y la infraestructura de entrega que va debajo.">
 <meta property="og:url" content="https://carloshdez.com/index.es.html">
 <meta property="og:image" content="https://carloshdez.com/img/carlos.png">
 <meta property="og:locale" content="es_ES">
 <meta property="og:locale:alternate" content="en_US">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Carlos Hernández",
+  "alternateName": "Carlos Antonio Hernández",
+  "url": "https://carloshdez.com/index.es.html",
+  "image": "https://carloshdez.com/img/carlos.png",
+  "email": "me@carloshdez.com",
+  "jobTitle": "Senior AI Platform Engineer",
+  "description": "Ingeniero de plataforma que construye sistemas LLM en producción: RAG multi-tenant, runtimes de agentes, arneses de evaluación y la infraestructura de entrega que va debajo.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "San Salvador",
+    "addressCountry": "SV"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Universitat de Barcelona (OBS Business School)"
+  },
+  "knowsAbout": [
+    "AI Platform Engineering",
+    "Retrieval-Augmented Generation",
+    "LLM agent runtimes",
+    "LLM evaluation and observability",
+    "Multi-tenant architecture",
+    "Platform engineering",
+    "CI/CD at organizational scale",
+    "FinOps for AI",
+    "Google Cloud Platform",
+    "Amazon Web Services",
+    "Terraform"
+  ],
+  "knowsLanguage": ["es", "en"],
+  "sameAs": [
+    "https://linkedin.com/in/carlosantoniohdz",
+    "https://github.com/carloshdez90",
+    "https://h14z.io"
+  ]
+}
+</script>
 <script>
   (function() {
     var stored = null;
@@ -394,6 +435,21 @@ section.col { margin-bottom: 80px; }
   font-weight: 500;
 }
 
+.nda-note {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  line-height: 1.6;
+  max-width: 58ch;
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.nda-note em {
+  font-style: italic;
+  color: var(--text-dim);
+}
+
 /* ============ NOTES ============ */
 
 .note {
@@ -660,14 +716,12 @@ footer .arrow {
   <!-- ============ MASTHEAD ============ -->
   <header class="masthead">
     <div>
-      <div class="masthead-name">Carlos <em>Hernández</em></div>
+      <h1 class="masthead-name">Carlos <em>Hernández</em></h1>
       <div class="masthead-meta">Senior AI Platform Engineer · San Salvador</div>
     </div>
     <div class="masthead-right">
-      <div class="status">
-        <span class="status-dot"></span>
-        <span>Disponible para consultoría</span>
-      </div>
+      <!-- Badge de disponibilidad quitado a propósito: el trabajo hace el posicionamiento.
+           Los estilos .status / .status-dot siguen abajo por si alguna vez hace falta. -->
       <div>
         UTC−6 · <span class="lang-switch"><span class="lang-current">ES</span> / <a href="/" hreflang="en">EN</a></span>
         <button class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
@@ -685,9 +739,9 @@ footer .arrow {
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <p>Construyo <em>sistemas LLM en producción</em> — observables, versionados, costeados, borrables.</p>
+    <p>Construyo las <em>plataformas</em> sobre las que corren sistemas LLM — observables, versionadas, costeadas, borrables.</p>
     <div class="hero-sub">
-      Ocho años en infraestructura de producción — DevOps y plataforma a escala, y los equipos detrás — ahora apuntados a la IA en producción. Lidero AI Platform Engineering en <a href="https://ese.plus" target="_blank" rel="noopener">EsePlus</a> / <a href="https://alilo.app" target="_blank" rel="noopener">Alilo</a>, y soy DevOps Engineer en <a href="https://deckers.com" target="_blank" rel="noopener">Deckers Brands</a>.
+      Ocho años en infraestructura de producción — DevOps y plataforma a escala, y los equipos detrás — ahora apuntados a la IA en producción. Dos carriles que se refuerzan: lidero AI Platform Engineering en <a href="https://ese.plus" target="_blank" rel="noopener">EsePlus</a> / <a href="https://alilo.app" target="_blank" rel="noopener">Alilo</a>, y construyo plataformas de entrega y de agentes como DevOps engineer en <a href="https://deckers.com" target="_blank" rel="noopener">Deckers Brands</a>. Lo escaso no es ninguna de las dos mitades — es aplicar disciplina de plataforma a sistemas que son no deterministas por naturaleza.
     </div>
   </section>
 
@@ -712,6 +766,52 @@ footer .arrow {
         Resultados: <span class="metric">95% → 99.5%</span> de disponibilidad · <span class="metric">20%+</span> de reducción de costo cloud · <span class="metric">~90%</span> de ahorro de tokens en reintentos de validación · <span class="metric">sub-3s</span> de latencia p50 · <span class="metric">cero jailbreaks</span> en testing adversarial.
       </div>
     </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">Clarytia — IA de conocimiento interno verificable</span>
+        <span class="entry-tag current">Beta privada</span>
+      </div>
+      <div class="entry-role">Producto propio · diseñado, construido y auditado en solitario</div>
+      <div class="entry-desc">
+        Una plataforma RAG multi-tenant que convierte los documentos de una empresa en un asistente que responde con la fuente, la página y un nivel de confianza — y dice "no lo sé" en vez de improvisar. <strong>Aislamiento por base de datos por tenant</strong>, así que "borrá todo lo de este cliente" es un <code>DROP</code>, no una consulta que hay que rezar para que cubra todas las tablas. Cinco carriles de ranking fusionados por Reciprocal Rank Fusion en <strong>una sola consulta SQL</strong> — sin servicio de búsqueda externo, sin un salto de red más. El control de acceso se aplica <em>dentro</em> de la ruta de recuperación, no como filtro posterior. Y hace algo que casi ninguna herramienta de conocimiento hace: cuando genuinamente no puede responder, eso se vuelve un <strong>vacío de conocimiento</strong> agrupado y nombrado — te dice qué le falta a tu documentación, rankeado por cuánta gente distinta chocó con eso.
+      </div>
+      <div class="entry-highlights">
+        Resultados: <span class="metric">2,814</span> tests automatizados con <span class="metric">&gt;90%</span> de cobertura · <span class="metric">37</span> architecture decision records · <span class="metric">105</span> endpoints de API · <span class="metric">cero fugas</span> en un red team generativo que corre como gate en cada deploy · construido en <span class="metric">5 meses</span>, autor único.
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">Plataforma self-service de agentes SRE</span>
+        <span class="entry-tag current">En producción</span>
+      </div>
+      <div class="entry-role">Cliente enterprise · detalles bajo NDA</div>
+      <div class="entry-desc">
+        Una plataforma que provisiona un agente de respuesta a incidentes con alcance por equipo — sus integraciones, sus permisos y su comportamiento — desde un solo bloque de configuración. <strong>Dar de alta un equipo es un merge request, no un proyecto.</strong> La parte que más defendería: los playbooks y las instrucciones permanentes del agente se entregan como <strong>paquetes versionados pineados por agente</strong>, así que cambiar cómo se comporta un agente es un diff revisado con aprobador — no un pegado en una caja de texto de consola que nadie puede auditar ni revertir. Toda integración es de solo lectura por construcción: el agente recomienda, los humanos actúan.
+      </div>
+      <div class="entry-highlights">
+        La apuesta de fondo: <em>lo que controlás no es el modelo — es el contexto del modelo y sus instrucciones.</em> La plataforma no opera ningún modelo propio, a propósito.
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">Plataforma compartida de entrega CI/CD</span>
+        <span class="entry-tag current">En producción</span>
+      </div>
+      <div class="entry-role">Cliente enterprise · detalles bajo NDA</div>
+      <div class="entry-desc">
+        No un pipeline — una <strong>plataforma de entrega</strong>. Una biblioteca de componentes CI/CD reutilizables (instalación, linting, testing, build, deploy) que cualquier repositorio de la organización consume con tres líneas de configuración, con tres repositorios consumidores corriendo sobre ella en producción. Despliegue ruteado por rama a sandboxes por equipo, métricas DORA instrumentadas de punta a punta, y un refactor de rendimiento que salió de medir en vez de intuir: el quality gate se movió <em>aguas abajo</em>, porque el build nunca leyó la salida del lint — el lint bloquea la publicación, no la compilación.
+      </div>
+      <div class="entry-highlights">
+        Resultados: <span class="metric">−52%</span> de wall clock del pipeline · <span class="metric">−54%</span> de tiempo de runner · <span class="metric">−62%</span> de jobs por pipeline — medido p50 sobre una ventana de 14 días, no una corrida con suerte.
+      </div>
+    </div>
+
+    <p class="nda-note">
+      El trabajo marcado <em>bajo NDA</em> se describe solo por sus patrones de ingeniería y sus resultados. El estate del cliente, la topología de infraestructura, los términos con proveedores y las cifras de costo se quedan donde corresponde.
+    </p>
   </section>
 
   <!-- ============ FIELD NOTES ============ -->
@@ -763,20 +863,6 @@ footer .arrow {
       <span class="note-meta"><span class="lang">ES</span><br>5 min</span>
       <p class="note-summary">Las migraciones de schema tienen versionado, rollback y un historial. La mayoría de los prompts en producción no. Qué cambió cuando empecé a tratarlos igual, y dónde se rompió primero.</p>
     </a>
-
-    <div class="note">
-      <span class="note-date">Mar '26</span>
-      <span class="note-title">Qué significa de verdad "observable" para una app LLM</span>
-      <span class="note-meta"><span class="lang">EN</span><br>7 min</span>
-      <p class="note-summary">Los traces de infraestructura te dicen que la request llegó. Las métricas de calidad te dicen que la respuesta estuvo mal. Hasta que ambos comparten un ID, estás adivinando. Un patrón que saqué de tener esto en guardia, y lo primero que construiría si empezara de nuevo.</p>
-    </div>
-
-    <div class="note">
-      <span class="note-date">Feb '26</span>
-      <span class="note-title">Mi IDE por fin se siente como un compañero</span>
-      <span class="note-meta"><span class="lang">EN</span><br>8 min</span>
-      <p class="note-summary">"Tool calling con pasos extra" es el encuadre equivocado. El cambio es más chico y más raro: el editor lee nuestro Jira, nuestro repo, nuestros traces, y empieza a responder las preguntas que antes le iba a hacer a un compañero.</p>
-    </div>
   </section>
 
   <!-- ============ RESEARCH ============ -->
@@ -799,15 +885,32 @@ footer .arrow {
     </div>
   </section>
 
-  <!-- ============ WORKSHOP ============ -->
+  <!-- ============ TALKS ============ -->
   <section class="col">
     <div class="section-head">
       <span class="section-head-label">IV</span>
+      <span class="section-head-title">Charlas</span>
+      <span class="section-head-line"></span>
+    </div>
+
+    <div class="talk">
+      <div>
+        <div class="talk-name">Cursor + MCP — when your IDE knows your stack</div>
+        <div class="talk-venue">Charla técnica interna · Grabación disponible</div>
+      </div>
+      <div class="talk-date">2026.02</div>
+    </div>
+  </section>
+
+  <!-- ============ WORKSHOP ============ -->
+  <section class="col">
+    <div class="section-head">
+      <span class="section-head-label">V</span>
       <span class="section-head-title">Workshop</span>
       <span class="section-head-line"></span>
     </div>
     <p class="workshop-intro">
-      Herramientas pequeñas que construyo para mi propia vida. Cada una empezó porque algo me molestó lo suficiente como para escribir código al respecto.
+      Construcciones paralelas. De menor alcance que el trabajo de arriba, acá porque las mismas disciplinas aparecen en cualquier tamaño.
     </p>
     <div class="workshop-grid">
 
@@ -827,23 +930,6 @@ footer .arrow {
         <div class="workshop-meta">React · Tailwind · personal</div>
       </div>
 
-    </div>
-  </section>
-
-  <!-- ============ TALKS ============ -->
-  <section class="col">
-    <div class="section-head">
-      <span class="section-head-label">V</span>
-      <span class="section-head-title">Charlas</span>
-      <span class="section-head-line"></span>
-    </div>
-
-    <div class="talk">
-      <div>
-        <div class="talk-name">Cursor + MCP — when your IDE knows your stack</div>
-        <div class="talk-venue">Charla técnica interna · Grabación disponible</div>
-      </div>
-      <div class="talk-date">2026.02</div>
     </div>
   </section>
 

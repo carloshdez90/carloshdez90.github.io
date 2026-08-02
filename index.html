@@ -5,20 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#faf9f6">
-<title>Carlos Hernández — Engineer & maker, San Salvador</title>
-<meta name="description" content="Senior AI Platform Engineer in San Salvador, building production LLM systems. Field notes on the patterns that survive an on-call rotation.">
+<title>Carlos Hernández — Senior AI Platform Engineer</title>
+<meta name="description" content="Senior AI Platform Engineer in San Salvador. I build the platforms that run LLM systems in production — multi-tenant RAG, agent runtimes, evals, and the delivery infrastructure underneath them.">
 <link rel="canonical" href="https://carloshdez.com/">
 <link rel="alternate" hreflang="en" href="https://carloshdez.com/">
 <link rel="alternate" hreflang="es" href="https://carloshdez.com/index.es.html">
 <link rel="alternate" hreflang="x-default" href="https://carloshdez.com/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Carlos Hernández — Senior AI Platform Engineer">
-<meta property="og:description" content="Building production LLM systems in San Salvador. Field notes on the patterns that survive an on-call rotation.">
+<meta property="og:description" content="I build the platforms that run LLM systems in production — multi-tenant RAG, agent runtimes, evals, and the delivery infrastructure underneath them.">
 <meta property="og:url" content="https://carloshdez.com/">
 <meta property="og:image" content="https://carloshdez.com/img/carlos.png">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="es_ES">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Carlos Hernández",
+  "alternateName": "Carlos Antonio Hernández",
+  "url": "https://carloshdez.com/",
+  "image": "https://carloshdez.com/img/carlos.png",
+  "email": "me@carloshdez.com",
+  "jobTitle": "Senior AI Platform Engineer",
+  "description": "Platform engineer building production LLM systems: multi-tenant RAG, agent runtimes, evaluation harnesses, and the delivery infrastructure underneath them.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "San Salvador",
+    "addressCountry": "SV"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Universitat de Barcelona (OBS Business School)"
+  },
+  "knowsAbout": [
+    "AI Platform Engineering",
+    "Retrieval-Augmented Generation",
+    "LLM agent runtimes",
+    "LLM evaluation and observability",
+    "Multi-tenant architecture",
+    "Platform engineering",
+    "CI/CD at organizational scale",
+    "FinOps for AI",
+    "Google Cloud Platform",
+    "Amazon Web Services",
+    "Terraform"
+  ],
+  "knowsLanguage": ["es", "en"],
+  "sameAs": [
+    "https://linkedin.com/in/carlosantoniohdz",
+    "https://github.com/carloshdez90",
+    "https://h14z.io"
+  ]
+}
+</script>
 <script>
   (function() {
     var stored = null;
@@ -394,6 +435,21 @@ section.col { margin-bottom: 80px; }
   font-weight: 500;
 }
 
+.nda-note {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  line-height: 1.6;
+  max-width: 58ch;
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.nda-note em {
+  font-style: italic;
+  color: var(--text-dim);
+}
+
 /* ============ NOTES ============ */
 
 .note {
@@ -660,14 +716,12 @@ footer .arrow {
   <!-- ============ MASTHEAD ============ -->
   <header class="masthead">
     <div>
-      <div class="masthead-name">Carlos <em>Hernández</em></div>
+      <h1 class="masthead-name">Carlos <em>Hernández</em></h1>
       <div class="masthead-meta">Senior AI Platform Engineer · San Salvador</div>
     </div>
     <div class="masthead-right">
-      <div class="status">
-        <span class="status-dot"></span>
-        <span>Available for consulting</span>
-      </div>
+      <!-- Availability badge removed on purpose: the work does the positioning.
+           The .status / .status-dot styles are still below if one is ever needed. -->
       <div>
         UTC−6 · <span class="lang-switch"><a href="/index.es.html" hreflang="es">ES</a> / <span class="lang-current">EN</span></span>
         <button class="theme-toggle" aria-label="Toggle light and dark theme">
@@ -685,9 +739,9 @@ footer .arrow {
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <p>I build <em>production LLM systems</em> — observable, versioned, costed, deletable.</p>
+    <p>I build the <em>platforms</em> that run LLM systems — observable, versioned, costed, deletable.</p>
     <div class="hero-sub">
-      Eight years in production infrastructure — DevOps and platform at scale, and the teams behind it — now aimed at production AI. I lead AI Platform Engineering at <a href="https://ese.plus" target="_blank" rel="noopener">EsePlus</a> / <a href="https://alilo.app" target="_blank" rel="noopener">Alilo</a>, and work as a DevOps Engineer at <a href="https://deckers.com" target="_blank" rel="noopener">Deckers Brands</a>.
+      Eight years in production infrastructure — DevOps and platform at scale, and the teams behind it — now aimed at production AI. Two rails that reinforce each other: I lead AI Platform Engineering at <a href="https://ese.plus" target="_blank" rel="noopener">EsePlus</a> / <a href="https://alilo.app" target="_blank" rel="noopener">Alilo</a>, and I build delivery and agent platforms as a DevOps engineer at <a href="https://deckers.com" target="_blank" rel="noopener">Deckers Brands</a>. The scarce part isn't either half — it's applying platform discipline to systems that are non-deterministic by nature.
     </div>
   </section>
 
@@ -712,6 +766,52 @@ footer .arrow {
         Highlights: <span class="metric">95% → 99.5%</span> availability uplift · <span class="metric">20%+</span> cloud cost reduction · <span class="metric">~90%</span> token savings on validation retries · <span class="metric">sub-3s</span> p50 latency · <span class="metric">zero jailbreaks</span> in adversarial testing.
       </div>
     </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">Clarytia — verifiable internal-knowledge AI</span>
+        <span class="entry-tag current">Private beta</span>
+      </div>
+      <div class="entry-role">My own product · designed, built and audited solo</div>
+      <div class="entry-desc">
+        A multi-tenant RAG platform that turns a company's own documents into an assistant that answers with the source, the page and a confidence tier — and says "I don't know" rather than improvising. <strong>Database-per-tenant isolation</strong>, so "delete everything about this customer" is a <code>DROP</code>, not a query I have to pray covers every table. Five ranking lanes fused by Reciprocal Rank Fusion in a <strong>single SQL query</strong> — no external search service, no extra network hop. Access control is enforced <em>inside</em> the retrieval path, not as a filter afterwards. And it does something most knowledge tools don't: when it genuinely can't answer, that becomes a clustered, named <strong>knowledge gap</strong> — telling you what your documentation is missing, ranked by how many distinct people hit it.
+      </div>
+      <div class="entry-highlights">
+        Highlights: <span class="metric">2,814</span> automated tests at <span class="metric">&gt;90%</span> coverage · <span class="metric">37</span> architecture decision records · <span class="metric">105</span> API endpoints · <span class="metric">zero leaks</span> across a generative red team gated at every deploy · built in <span class="metric">5 months</span>, single author.
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">Self-service platform for AI SRE agents</span>
+        <span class="entry-tag current">In production</span>
+      </div>
+      <div class="entry-role">Enterprise engagement · specifics under NDA</div>
+      <div class="entry-desc">
+        A platform that provisions a team-scoped incident-response agent — its integrations, its permissions and its behaviour — from a single block of configuration. <strong>Onboarding a team is a merge request, not a project.</strong> The part I'd argue hardest for: the agent's playbooks and standing instructions ship as <strong>versioned packages pinned per agent</strong>, so changing how an agent behaves is a reviewed diff with an approver — not a paste into a console text box nobody can audit or roll back. Every integration is read-only by construction: the agent recommends, humans act.
+      </div>
+      <div class="entry-highlights">
+        The bet underneath it: <em>what you control is not the model — it's the model's context and its instructions.</em> The platform operates zero models of its own, on purpose.
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-name">Shared CI/CD delivery platform</span>
+        <span class="entry-tag current">In production</span>
+      </div>
+      <div class="entry-role">Enterprise engagement · specifics under NDA</div>
+      <div class="entry-desc">
+        Not a pipeline — a <strong>delivery platform</strong>. A library of reusable CI/CD components (install, lint, test, build, deploy) that any repository in the organization consumes in three lines of config, with three consumer repositories running on it in production. Branch-routed deployment to per-team sandboxes, DORA metrics instrumented end to end, and a performance refactor that came out of measurement rather than instinct: the quality gate moved <em>downstream</em>, because the build never read lint's output — lint blocks publishing, not compiling.
+      </div>
+      <div class="entry-highlights">
+        Highlights: <span class="metric">−52%</span> pipeline wall clock · <span class="metric">−54%</span> runner time · <span class="metric">−62%</span> jobs per pipeline — measured p50 over a 14-day window, not a lucky run.
+      </div>
+    </div>
+
+    <p class="nda-note">
+      Work marked <em>under NDA</em> is described by its engineering patterns and outcomes only. Client estates, infrastructure topology, vendor terms and cost figures stay where they belong.
+    </p>
   </section>
 
   <!-- ============ FIELD NOTES ============ -->
@@ -763,20 +863,6 @@ footer .arrow {
       <span class="note-meta"><span class="lang">EN</span><br>5 min</span>
       <p class="note-summary">Schema migrations have versioning, rollback, and a paper trail. Most prompts in production don't. What changed for me when I started treating them the same way, and where it broke first.</p>
     </a>
-
-    <div class="note">
-      <span class="note-date">Mar '26</span>
-      <span class="note-title">What "observable" actually means for an LLM app</span>
-      <span class="note-meta"><span class="lang">EN</span><br>7 min</span>
-      <p class="note-summary">Infrastructure traces tell you the request landed. Quality metrics tell you the answer was wrong. Until both share an ID, you're guessing. A pattern set from running this on call, and the one thing I'd build first if I had to start over.</p>
-    </div>
-
-    <div class="note">
-      <span class="note-date">Feb '26</span>
-      <span class="note-title">My IDE finally feels like a coworker</span>
-      <span class="note-meta"><span class="lang">EN</span><br>8 min</span>
-      <p class="note-summary">"Tool calling with extra steps" is the wrong framing. The shift is smaller and weirder: the editor reads our Jira, our repo, our traces, and starts answering the questions I used to walk over to a teammate for.</p>
-    </div>
   </section>
 
   <!-- ============ RESEARCH ============ -->
@@ -799,15 +885,32 @@ footer .arrow {
     </div>
   </section>
 
-  <!-- ============ WORKSHOP ============ -->
+  <!-- ============ TALKS ============ -->
   <section class="col">
     <div class="section-head">
       <span class="section-head-label">IV</span>
+      <span class="section-head-title">Speaking</span>
+      <span class="section-head-line"></span>
+    </div>
+
+    <div class="talk">
+      <div>
+        <div class="talk-name">Cursor + MCP — when your IDE knows your stack</div>
+        <div class="talk-venue">Internal tech talk · Recording available</div>
+      </div>
+      <div class="talk-date">2026.02</div>
+    </div>
+  </section>
+
+  <!-- ============ WORKSHOP ============ -->
+  <section class="col">
+    <div class="section-head">
+      <span class="section-head-label">V</span>
       <span class="section-head-title">Workshop</span>
       <span class="section-head-line"></span>
     </div>
     <p class="workshop-intro">
-      Small tools I build for my own life. Each one started because something annoyed me enough to write code about it.
+      Side builds. Smaller in scope than the work above, kept here because the same disciplines show up at any size.
     </p>
     <div class="workshop-grid">
 
@@ -827,23 +930,6 @@ footer .arrow {
         <div class="workshop-meta">React · Tailwind · personal</div>
       </div>
 
-    </div>
-  </section>
-
-  <!-- ============ TALKS ============ -->
-  <section class="col">
-    <div class="section-head">
-      <span class="section-head-label">V</span>
-      <span class="section-head-title">Speaking</span>
-      <span class="section-head-line"></span>
-    </div>
-
-    <div class="talk">
-      <div>
-        <div class="talk-name">Cursor + MCP — when your IDE knows your stack</div>
-        <div class="talk-venue">Internal tech talk · Recording available</div>
-      </div>
-      <div class="talk-date">2026.02</div>
     </div>
   </section>
 

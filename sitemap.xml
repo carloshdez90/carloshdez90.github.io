@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://carloshdez.com/</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/index.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/index.es.html</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/index.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/deletable.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/deletable.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/deletable.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/deletable.es.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/deletable.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/deletable.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/jailbreaks-are-regressions.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/jailbreaks-are-regressions.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/jailbreaks-are-regressions.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/jailbreaks-are-regressions.es.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/jailbreaks-are-regressions.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/jailbreaks-are-regressions.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/prompts-deserve-migrations.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/prompts-deserve-migrations.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/prompts-deserve-migrations.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/prompts-deserve-migrations.es.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/prompts-deserve-migrations.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/prompts-deserve-migrations.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/the-model-ships-in-your-browser.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/the-model-ships-in-your-browser.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/the-model-ships-in-your-browser.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/the-model-ships-in-your-browser.es.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/the-model-ships-in-your-browser.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/the-model-ships-in-your-browser.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/the-transformer-wasnt-worth-it.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/the-transformer-wasnt-worth-it.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/the-transformer-wasnt-worth-it.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/the-transformer-wasnt-worth-it.es.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/the-transformer-wasnt-worth-it.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/the-transformer-wasnt-worth-it.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/when-classical-wins.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/when-classical-wins.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/when-classical-wins.es.html"/>
+  </url>
+  <url>
+    <loc>https://carloshdez.com/notes/when-classical-wins.es.html</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://carloshdez.com/notes/when-classical-wins.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carloshdez.com/notes/when-classical-wins.es.html"/>
+  </url>
+</urlset>
