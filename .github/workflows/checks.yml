@@ -1,0 +1,47 @@
+# Runs on GitHub, not on Vercel, and that is deliberate: .vercelignore keeps
+# tools/ out of what Vercel uploads, so a Vercel build command could not find
+# these scripts. Actions checks out the whole repo from git, and it runs before
+# the deploy is worth looking at.
+#
+# Only the cheap checks live here. Regenerating the icons and share cards needs
+# Chrome and ImageMagick, and its outputs are committed artifacts that change
+# maybe twice a year — that stays a manual `./tools/brand/build.sh`.
+
+name: checks
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Both scripts are stdlib-only on purpose: no requirements file to drift,
+      # nothing to install, seconds to run.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Design tokens are identical across every page
+        run: ./tools/check-tokens.py
+
+      - name: No broken references and no orphaned files
+        run: ./tools/check-assets.py
+
+      - name: Nothing private reached the public tree
+        run: |
+          # This repo is public and the site is served from it verbatim. The
+          # private knowledge base lives in another repo and must never appear
+          # here, in any form.
+          if git grep -Iiln -e 'career_plan' -e 'BEGIN [A-Z ]*PRIVATE KEY' \
+                            -e 'SUPABASE_SERVICE_ROLE' -e 'service_role' \
+                            -- . ':!.github/workflows/checks.yml'; then
+            echo "::error::private material found in the public tree (see files above)"
+            exit 1
+          fi
+          echo "clean"

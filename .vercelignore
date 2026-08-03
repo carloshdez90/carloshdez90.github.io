@@ -1,0 +1,20 @@
+# Vercel deploys this repo verbatim: every file in the tree becomes a public URL.
+# Anything listed here is never uploaded, so it cannot be fetched.
+#
+# .git, .gitignore and .DS_Store are already excluded by Vercel's own defaults —
+# they do not need to be repeated here.
+
+# Build tooling for the brand assets. The sources (favicon.svg, og-card.html)
+# and the script that renders them are not part of the site; the files they
+# produce are committed at the repo root and served from there.
+# See tools/brand/README.md.
+tools
+
+# Apache cache-expiry config, inert on Vercel — it sets its own headers.
+# Kept in the repo for the record, not worth serving.
+.htaccess
+
+# Repo documentation and CI. They describe the site, they are not part of it.
+# Vercel's defaults cover .git but not .github.
+README.md
+.github
