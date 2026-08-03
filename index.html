@@ -3,9 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light">
-<meta name="theme-color" content="#faf9f6">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0c0e" media="(prefers-color-scheme: dark)">
 <title>Carlos Hernández — Senior AI Platform Engineer</title>
+
+<!-- Icons. favicon.svg carries its own light/dark variants; the .ico is the
+     fallback for browsers that ignore SVG. Regenerate: tools/brand/build.sh -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta name="description" content="Senior AI Platform Engineer in San Salvador. I build the platforms that run LLM systems in production — multi-tenant RAG, agent runtimes, evals, and the delivery infrastructure underneath them.">
 <link rel="canonical" href="https://carloshdez.com/">
 <link rel="alternate" hreflang="en" href="https://carloshdez.com/">
@@ -15,10 +23,17 @@
 <meta property="og:title" content="Carlos Hernández — Senior AI Platform Engineer">
 <meta property="og:description" content="I build the platforms that run LLM systems in production — multi-tenant RAG, agent runtimes, evals, and the delivery infrastructure underneath them.">
 <meta property="og:url" content="https://carloshdez.com/">
-<meta property="og:image" content="https://carloshdez.com/img/carlos.png">
+<meta property="og:site_name" content="Carlos Hernández">
+<meta property="og:image" content="https://carloshdez.com/og-card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Carlos Hernández — Senior AI Platform Engineer. I build the platforms that run LLM systems: observable, versioned, costed, deletable.">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://carloshdez.com/og-card.png">
+<meta name="twitter:image:alt" content="Carlos Hernández — Senior AI Platform Engineer. I build the platforms that run LLM systems: observable, versioned, costed, deletable.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

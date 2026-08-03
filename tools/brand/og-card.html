@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!--
+  Source for the social share cards (og-card.png / og-card.es.png).
+
+  Rendered at 1200x630 by tools/brand/build.sh. Open it in a browser to preview;
+  add ?lang=es for the Spanish card. The copy below is kept in sync by hand with
+  the masthead and hero of index.html / index.es.html — if the hero changes,
+  change it here too and re-run build.sh.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OG card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f6;
+    --bg-elev: #f3f1ec;
+    --text: #18181c;
+    --text-mid: #52525a;
+    --text-faint: #8e8e96;
+    --border: #e6e3dd;
+    --wine: #7d2929;
+    --gold: #8a6e2f;
+    --font-serif: 'Newsreader', Georgia, serif;
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { width: 1200px; height: 630px; }
+
+  body {
+    background: var(--bg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  .card {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    padding: 72px 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-top: 10px solid var(--wine);
+  }
+
+  /* the same faint warm wash the site puts behind its hero */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: -220px; right: -180px;
+    width: 720px; height: 720px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(125, 41, 41, 0.055), transparent 68%);
+    pointer-events: none;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; }
+
+  .name {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-variation-settings: "opsz" 60;
+    font-size: 72px;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .name em { font-style: italic; font-weight: 400; color: var(--wine); }
+
+  .rule {
+    width: 92px;
+    height: 2px;
+    background: var(--wine);
+    margin: 24px 0 20px;
+  }
+
+  .role {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  .portrait {
+    flex: none;
+    width: 168px; height: 168px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--bg-elev);
+    box-shadow: 0 0 0 1px var(--border);
+  }
+
+  .pitch {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-variation-settings: "opsz" 40;
+    font-size: 40px;
+    line-height: 1.34;
+    letter-spacing: -0.011em;
+    color: var(--text);
+    max-width: 1000px;
+  }
+  .pitch em { font-style: italic; color: var(--wine); }
+
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    letter-spacing: 0.01em;
+  }
+  .domain { color: var(--wine); font-weight: 500; }
+  .meta   { color: var(--text-faint); }
+
+  [lang="es"] .pitch { font-size: 37px; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="top">
+    <div>
+      <div class="name">Carlos <em>Hernández</em></div>
+      <div class="rule"></div>
+      <div class="role">Senior AI Platform Engineer</div>
+    </div>
+    <img class="portrait" src="../../img/carlos.png" alt="">
+  </div>
+
+  <p class="pitch" data-en="I build the <em>platforms</em> that run LLM systems &mdash; observable, versioned, costed, deletable."
+     data-es="Construyo las <em>plataformas</em> sobre las que corren sistemas LLM &mdash; observables, versionadas, costeadas, borrables."></p>
+
+  <div class="foot">
+    <span class="domain">carloshdez.com</span>
+    <span class="meta" data-en="San Salvador &middot; UTC&minus;6 &middot; EN / ES"
+                       data-es="San Salvador &middot; UTC&minus;6 &middot; ES / EN"></span>
+  </div>
+</div>
+
+<script>
+  const lang = new URLSearchParams(location.search).get('lang') === 'es' ? 'es' : 'en';
+  document.documentElement.lang = lang;
+  for (const el of document.querySelectorAll('[data-en]')) {
+    el.innerHTML = el.dataset[lang];
+  }
+</script>
+
+</body>
+</html>

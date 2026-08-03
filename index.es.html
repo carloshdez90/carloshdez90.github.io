@@ -3,9 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light">
-<meta name="theme-color" content="#faf9f6">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0c0e" media="(prefers-color-scheme: dark)">
 <title>Carlos Hernández — Senior AI Platform Engineer</title>
+
+<!-- Iconos. favicon.svg lleva sus propias variantes clara y oscura; el .ico es
+     el fallback para navegadores que ignoran SVG. Regenerar: tools/brand/build.sh -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta name="description" content="Senior AI Platform Engineer en San Salvador. Construyo las plataformas sobre las que corren sistemas LLM en producción — RAG multi-tenant, runtimes de agentes, evals y la infraestructura de entrega que va debajo.">
 <link rel="canonical" href="https://carloshdez.com/index.es.html">
 <link rel="alternate" hreflang="en" href="https://carloshdez.com/">
@@ -15,10 +23,17 @@
 <meta property="og:title" content="Carlos Hernández — Senior AI Platform Engineer">
 <meta property="og:description" content="Construyo las plataformas sobre las que corren sistemas LLM en producción — RAG multi-tenant, runtimes de agentes, evals y la infraestructura de entrega que va debajo.">
 <meta property="og:url" content="https://carloshdez.com/index.es.html">
-<meta property="og:image" content="https://carloshdez.com/img/carlos.png">
+<meta property="og:site_name" content="Carlos Hernández">
+<meta property="og:image" content="https://carloshdez.com/og-card.es.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Carlos Hernández — Senior AI Platform Engineer. Construyo las plataformas sobre las que corren sistemas LLM: observables, versionadas, costeadas, borrables.">
 <meta property="og:locale" content="es_ES">
 <meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://carloshdez.com/og-card.es.png">
+<meta name="twitter:image:alt" content="Carlos Hernández — Senior AI Platform Engineer. Construyo las plataformas sobre las que corren sistemas LLM: observables, versionadas, costeadas, borrables.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
